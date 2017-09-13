@@ -1,0 +1,40 @@
+package ru.hh.headhunterclient.domain.interactor.base;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+
+/**
+ * Created by neox on 12/9/17.
+ */
+
+public abstract class Interactor<T> {
+
+    private CompositeDisposable mCompositeDisposable;
+
+    public void execute(InteractorObserver<T> interactorObserver) {
+        if (interactorObserver == null) {
+            throw new IllegalArgumentException("disposableObserver must not be null");
+        }
+        if (mCompositeDisposable == null || mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        final Observable<T> observable = this
+                .createObservableInteractor()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread(), true);
+        DisposableObserver observer = observable.subscribeWith(interactorObserver);
+        mCompositeDisposable.add(observer);
+    }
+
+    public void dispose() {
+        if (mCompositeDisposable != null && !mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.dispose();
+        }
+    }
+
+    protected abstract Observable<T> createObservableInteractor();
+
+}

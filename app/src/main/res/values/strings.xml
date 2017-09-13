@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">HeadHunterClient</string>
+    <string name="no_connection_exception_error">Отсутствует соединение с сервером</string>
+    <string name="default_exception_error">Ошибка получения данных</string>
+    <string name="json_parse_exception_error">Ошибка парсинга Json</string>
+    <string name="timeout_error_exception_error">Время ожидания истекло</string>
+    <string name="not_found_exception_error">Объект не найден</string>
+    <string name="try_again_snack_bar">Попробовать еще</string>
+    <string name="no_data_salary">Н/Д</string>
+    <string name="salary_not_found">Зарплата не указана</string>
+    <string name="salary_from">до</string>
+    <string name="salary_to">от</string>
+    <string name="menu_search_hint">Поиск</string>
+    <string name="no_data_error">Ничего не найдено, пожалуйста, уточните запрос</string>
+    <string name="keywords">Должность, ключевые слова</string>
+    <string name="from_to_format" formatted="false">От %d до %d %s</string>
+    <string name="from_format" formatted="false">От %d %s</string>
+    <string name="to_format" formatted="false">До %d %s</string>
+    <string name="vacancy_desc" formatted="false">%s, %s</string>
+    <string name="detailing">Детализация</string>
+</resources>
