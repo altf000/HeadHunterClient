@@ -35,12 +35,9 @@ public class VacancyListActivity extends BaseActivity {
         setTitle(getString(R.string.app_name));
 
         VacancyListFragment listFragment = (VacancyListFragment) getCurrentFragment(R.id.container);
+
         if (listFragment == null) {
             listFragment = VacancyListFragment.newInstance();
-        }
-
-        if (savedInstanceState != null && savedInstanceState.get(VACANCY_ID) != null) {
-            mID = savedInstanceState.getString(VACANCY_ID);
         }
 
         listFragment.setListener(id -> {
@@ -59,6 +56,10 @@ public class VacancyListActivity extends BaseActivity {
         });
 
         changeFragment(listFragment, R.id.container);
+
+        if (savedInstanceState != null && savedInstanceState.get(VACANCY_ID) != null) {
+            mID = savedInstanceState.getString(VACANCY_ID);
+        }
 
         if (mID != null && mUtils.isLarge()) {
             changeFragment(VacancyDetailFragment.newInstance(mID), R.id.details_container);
