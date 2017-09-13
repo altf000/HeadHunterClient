@@ -74,6 +74,12 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mPresenter.detachView();
+    }
+
+    @Override
     public void showLoading() {
         mProgressBar.setVisibility(View.VISIBLE);
     }
