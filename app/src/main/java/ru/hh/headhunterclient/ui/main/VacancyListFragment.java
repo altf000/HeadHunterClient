@@ -91,8 +91,13 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRefreshLayout.setOnRefreshListener(() -> mVacancyListPresenter.getVacancies());
-        mVacancyListPresenter.getVacancies();
         createSearchViewObservable();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mVacancyListPresenter.getVacancies();
     }
 
     @Override
