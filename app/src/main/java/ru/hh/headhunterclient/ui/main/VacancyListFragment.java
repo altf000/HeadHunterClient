@@ -60,7 +60,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Keywords
     Preference<String> mQuery;
 
-    private VacancyListActivity.OnItemSelectedListener itemSelectedListener;
+    private VacancyListActivity.OnItemSelectedListener mItemListener;
     private View mView;
     private VacancyListAdapter mAdapter;
 
@@ -87,7 +87,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mQueryEditText.setText(mQuery.get());
-        mAdapter = new VacancyListAdapter(getContext(), itemSelectedListener);
+        mAdapter = new VacancyListAdapter(getContext(), mItemListener);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRefreshLayout.setOnRefreshListener(() -> mVacancyListPresenter.getVacancies());
@@ -143,6 +143,6 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     }
 
     public void setListener(VacancyListActivity.OnItemSelectedListener listener) {
-        this.itemSelectedListener = listener;
+        this.mItemListener = listener;
     }
 }
