@@ -39,10 +39,20 @@ public class VacancyListActivity extends BaseActivity {
             listFragment = VacancyListFragment.newInstance();
         }
 
+        if (savedInstanceState != null && savedInstanceState.get(VACANCY_ID) != null) {
+            mID = savedInstanceState.getString(VACANCY_ID);
+        }
+
         listFragment.setListener(id -> {
             mID = id;
             if (mUtils.isLarge()) {
-                changeFragment(VacancyDetailFragment.newInstance(id), R.id.details_container);
+                VacancyDetailFragment vacancyDetailFragment = (VacancyDetailFragment) getCurrentFragment(R.id.details_container);
+                if (vacancyDetailFragment == null) {
+                    vacancyDetailFragment = (VacancyDetailFragment) VacancyDetailFragment.newInstance(id);
+                    changeFragment(vacancyDetailFragment, R.id.details_container);
+                } else {
+                    vacancyDetailFragment.loadData(mID);
+                }
             } else {
                 VacancyDetailActivity.startActivity(VacancyListActivity.this, id);
             }
@@ -50,8 +60,8 @@ public class VacancyListActivity extends BaseActivity {
 
         changeFragment(listFragment, R.id.container);
 
-        if (savedInstanceState != null && savedInstanceState.getString(VACANCY_ID) != null && mUtils.isLarge()) {
-            changeFragment(VacancyDetailFragment.newInstance(savedInstanceState.getString(VACANCY_ID)), R.id.details_container);
+        if (mID != null && mUtils.isLarge()) {
+            changeFragment(VacancyDetailFragment.newInstance(mID), R.id.details_container);
         }
     }
 

@@ -44,11 +44,6 @@ public class VacancyListViewHolder extends BaseViewHolder {
         mTitle.setText(vacancy.getName());
         mSalary.setText(mVacancyUtils.getSalary(vacancy.getSalary(), itemView.getContext()));
         mDesc.setText(String.format(itemView.getContext().getString(R.string.vacancy_desc), vacancy.getArea().getName(), vacancy.getEmployer().getName()));
-        mContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                itemSelectedListener.onItemSelected(vacancy.getId());
-            }
-        });
+        mContainer.setOnClickListener(view -> itemSelectedListener.onItemSelected(vacancy.getId()));
     }
 }

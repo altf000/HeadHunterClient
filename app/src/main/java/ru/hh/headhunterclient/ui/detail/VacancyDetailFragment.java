@@ -108,4 +108,9 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
             mVacancyDesc.setText(Html.fromHtml(mVacancyDetail.getDescription()));
         }
     }
+
+    public void loadData(String id) {
+        mID = id;
+        mPresenter.getVacancyDetail(mID);
+    }
 }
