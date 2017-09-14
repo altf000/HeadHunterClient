@@ -4,12 +4,12 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 
-import ru.hh.headhunterclient.App;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.ui.base.BaseActivity;
 import ru.hh.headhunterclient.ui.detail.VacancyDetailActivity;
 import ru.hh.headhunterclient.ui.detail.VacancyDetailFragment;
-import ru.hh.headhunterclient.utils.Utils;
+import ru.hh.headhunterclient.utils.CommonUtils;
 
 /**
  * Created by neox on 12/9/17.
@@ -21,7 +21,7 @@ public class VacancyListActivity extends BaseActivity {
     public static final String VACANCY_ID = "vacancy_id";
 
     @Inject
-    Utils mUtils;
+    CommonUtils mCommonUtils;
 
     private String mID;
 
@@ -30,7 +30,7 @@ public class VacancyListActivity extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-        setCustomContentView(mUtils.isLarge() ? R.layout.activity_base_tablet : R.layout.activity_base);
+        setCustomContentView(mCommonUtils.isLarge() ? R.layout.activity_base_tablet : R.layout.activity_base);
         initToolbar(mToolbar);
         setTitle(getString(R.string.app_name));
 
@@ -42,7 +42,7 @@ public class VacancyListActivity extends BaseActivity {
 
         listFragment.setListener(id -> {
             mID = id;
-            if (mUtils.isLarge()) {
+            if (mCommonUtils.isLarge()) {
                 VacancyDetailFragment vacancyDetailFragment = (VacancyDetailFragment) getCurrentFragment(R.id.details_container);
                 if (vacancyDetailFragment == null) {
                     vacancyDetailFragment = (VacancyDetailFragment) VacancyDetailFragment.newInstance(id);
@@ -61,7 +61,7 @@ public class VacancyListActivity extends BaseActivity {
             mID = savedInstanceState.getString(VACANCY_ID);
         }
 
-        if (mID != null && mUtils.isLarge()) {
+        if (mID != null && mCommonUtils.isLarge()) {
             changeFragment(VacancyDetailFragment.newInstance(mID), R.id.details_container);
         }
     }

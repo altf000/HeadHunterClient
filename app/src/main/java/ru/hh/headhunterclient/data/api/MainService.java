@@ -14,7 +14,7 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 public interface MainService {
 
     @GET("vacancies")
-    Observable<VacancyList> getVacancies(@Query("text") String text);
+    Observable<VacancyList> getVacancies(@Query("text") String text, @Query("page") int page);
 
     @GET("vacancies/{id}")
     Observable<VacancyDetail> getVacancyDetail(@Path("id") String id);

@@ -29,11 +29,13 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     @Override
-    public Observable<VacancyList> getVacancies(final String query) {
+    public Observable<VacancyList> getVacancies(final String query, final int page) {
         return Observable.create((ObservableOnSubscribe<VacancyList>) e -> mVacancyCloudStorage
-                .getVacancies(query)
+                .getVacancies(query, page)
                 .doOnNext(vacancyList -> {
-                    mVacancyLocalStorage.clearVacancyList();
+                    if (page == 0) {
+                        mVacancyLocalStorage.clearVacancyList();
+                    }
                     mVacancyLocalStorage.saveVacancyList(vacancyList);
                 })
                 .subscribe(vacancyList -> {
@@ -42,19 +44,21 @@ public class VacancyRepositoryImpl implements VacancyRepository {
                     }
                 }, throwable -> {
                     if (!e.isDisposed()) {
-                        getVacanciesFromLocal(e, throwable);
+                        getVacanciesFromLocal(e, throwable, page);
                     }
                 }))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread(), true);
     }
 
-    private void getVacanciesFromLocal(ObservableEmitter<VacancyList> e, Throwable t) {
+    private void getVacanciesFromLocal(ObservableEmitter<VacancyList> e, Throwable t, int page) {
         mVacancyLocalStorage
-                .getVacancies("")
+                .getVacancies(null, 0)
                 .subscribe(vacancyList -> {
                     if (!e.isDisposed()) {
-                        e.onNext(vacancyList);
+                        if (page == 0) {
+                            e.onNext(vacancyList);
+                        }
                         e.onError(ExceptionFactory.getException(t));
                     }
                 }, throwable -> {

@@ -9,7 +9,7 @@ import ru.hh.headhunterclient.presentation.base.MvpView;
 
 public interface VacancyListView extends MvpView {
 
-    void getVacanciesDone(VacancyList vacancyList);
+    void getVacanciesDone(VacancyList vacancyList, boolean loadMore);
 
     void showNoDataError();
 

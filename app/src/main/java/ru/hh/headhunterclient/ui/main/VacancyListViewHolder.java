@@ -7,7 +7,7 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import ru.hh.headhunterclient.App;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.ui.base.BaseViewHolder;

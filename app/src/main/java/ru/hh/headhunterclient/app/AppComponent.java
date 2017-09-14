@@ -1,4 +1,4 @@
-package ru.hh.headhunterclient;
+package ru.hh.headhunterclient.app;
 
 import javax.inject.Singleton;
 

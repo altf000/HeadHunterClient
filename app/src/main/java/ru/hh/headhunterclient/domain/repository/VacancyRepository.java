@@ -10,7 +10,7 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
 public interface VacancyRepository {
 
-    Observable<VacancyList> getVacancies(String query);
+    Observable<VacancyList> getVacancies(String query, int page);
 
     Observable<VacancyDetail> getVacancyDetail(String id);
 }

@@ -1,8 +1,9 @@
-package ru.hh.headhunterclient;
+package ru.hh.headhunterclient.app;
 
 import android.app.Application;
 
 import io.realm.Realm;
+import ru.hh.headhunterclient.BuildConfig;
 import timber.log.Timber;
 
 /**

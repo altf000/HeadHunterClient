@@ -8,10 +8,10 @@ import android.support.v4.app.Fragment;
 
 import javax.inject.Inject;
 
-import ru.hh.headhunterclient.App;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.ui.base.BaseActivity;
-import ru.hh.headhunterclient.utils.Utils;
+import ru.hh.headhunterclient.utils.CommonUtils;
 
 /**
  * Created by neox on 12.09.17.
@@ -23,7 +23,7 @@ public class VacancyDetailActivity extends BaseActivity {
     public static final String EXTRA_ID = "extra_id";
 
     @Inject
-    Utils mUtils;
+    CommonUtils mCommonUtils;
 
     public static void startActivity(Context context, String id) {
         Intent intent = new Intent(context, VacancyDetailActivity.class);
@@ -45,7 +45,7 @@ public class VacancyDetailActivity extends BaseActivity {
         setTitle(getString(R.string.detailing));
         setBackEnabled();
 
-        if (mUtils.isLarge()) {
+        if (mCommonUtils.isLarge()) {
             finish();
             return;
         }

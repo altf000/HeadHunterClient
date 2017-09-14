@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import ru.hh.headhunterclient.App;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.data.Keywords;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
@@ -30,6 +30,7 @@ import ru.hh.headhunterclient.presentation.vacancy.list.VacancyListPresenter;
 import ru.hh.headhunterclient.presentation.vacancy.list.VacancyListView;
 import ru.hh.headhunterclient.ui.base.BaseFragment;
 import ru.hh.headhunterclient.utils.Constants;
+import ru.hh.headhunterclient.utils.LoadMoreListener;
 
 /**
  * Created by neox on 12/9/17.
@@ -60,7 +61,8 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Keywords
     Preference<String> mQuery;
 
-    private VacancyListActivity.OnItemSelectedListener mItemListener;
+    private LoadMoreListener mLoadMoreListener;
+    private VacancyListActivity.OnItemSelectedListener mItemSelectedListener;
     private View mView;
     private VacancyListAdapter mAdapter;
 
@@ -87,10 +89,17 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mQueryEditText.setText(mQuery.get());
-        mAdapter = new VacancyListAdapter(getContext(), mItemListener);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreListener = new LoadMoreListener(layoutManager);
+        mLoadMoreListener.setOnLoadMoreListener(() -> mVacancyListPresenter.getVacancies(mQuery.get(), true));
+        mAdapter = new VacancyListAdapter(getContext(), mItemSelectedListener);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        mRefreshLayout.setOnRefreshListener(() -> mVacancyListPresenter.getVacancies());
+        mRecyclerView.addOnScrollListener(mLoadMoreListener);
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mLoadMoreListener.refresh();
+            mVacancyListPresenter.getVacancies();
+        });
         createSearchViewObservable();
     }
 
@@ -108,22 +117,18 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
 
     @Override
     public void showLoading() {
-        mRecyclerView.setVisibility(View.GONE);
-        mNoDataError.setVisibility(View.GONE);
         mRefreshLayout.setRefreshing(true);
+        mNoDataError.setVisibility(View.GONE);
     }
 
     @Override
     public void hideLoading() {
-        mRecyclerView.setVisibility(View.VISIBLE);
         mRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showError(String error) {
-        Snackbar.make(mView, error, Snackbar.LENGTH_LONG)
-                .setAction(R.string.try_again_snack_bar, v -> mVacancyListPresenter.getVacancies())
-                .show();
+        Snackbar.make(mView, error, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -132,8 +137,12 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     }
 
     @Override
-    public void getVacanciesDone(VacancyList vacancyList) {
-        mAdapter.setList(vacancyList.getItems());
+    public void getVacanciesDone(VacancyList vacancyList, boolean loadMore) {
+        if (loadMore && vacancyList.getItems().size() != Constants.PAGE_SIZE) {
+            mLoadMoreListener.setDone(true);
+        }
+        mAdapter.setList(vacancyList.getItems(), loadMore);
+        mVacancyListPresenter.setPage(mAdapter.getItemCount() / Constants.PAGE_SIZE);
     }
 
     private void createSearchViewObservable() {
@@ -144,10 +153,13 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
                 .doOnNext(s -> mQuery.set(s))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> mVacancyListPresenter.getVacancies(s));
+                .subscribe(s -> {
+                    mLoadMoreListener.refresh();
+                    mVacancyListPresenter.getVacancies(s);
+                });
     }
 
     public void setListener(VacancyListActivity.OnItemSelectedListener listener) {
-        this.mItemListener = listener;
+        this.mItemSelectedListener = listener;
     }
 }

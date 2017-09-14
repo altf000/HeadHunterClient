@@ -21,8 +21,8 @@ public class VacancyCloudStorage implements VacancyStore {
         this.mMainService = mMainService;
     }
 
-    public Observable<VacancyList> getVacancies(String text) {
-        return mMainService.getVacancies(text);
+    public Observable<VacancyList> getVacancies(String text, int page) {
+        return mMainService.getVacancies(text, page);
     }
 
     @Override

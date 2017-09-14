@@ -48,8 +48,12 @@ public class VacancyListAdapter extends RecyclerView.Adapter<VacancyListViewHold
         return mList.size();
     }
 
-    public void setList(List<Vacancy> list) {
-        this.mList = list;
+    public void setList(List<Vacancy> list, boolean loadMore) {
+        if (loadMore) {
+            this.mList.addAll(list);
+        } else {
+            this.mList = list;
+        }
         this.notifyDataSetChanged();
     }
 }

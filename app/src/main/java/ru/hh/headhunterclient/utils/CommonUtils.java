@@ -7,11 +7,11 @@ import android.content.res.Configuration;
  * Created by neox on 13.09.17.
  */
 
-public class Utils {
+public class CommonUtils {
 
     private Context mContext;
 
-    public Utils(Context context) {
+    public CommonUtils(Context context) {
         this.mContext = context;
     }
 

@@ -12,7 +12,7 @@ import dagger.Module;
 import dagger.Provides;
 import ru.hh.headhunterclient.data.repository.RepositoryModule;
 import ru.hh.headhunterclient.utils.Constants;
-import ru.hh.headhunterclient.utils.Utils;
+import ru.hh.headhunterclient.utils.CommonUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -48,7 +48,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    Utils provideUtils(Application application) {
-        return new Utils(application);
+    CommonUtils provideUtils(Application application) {
+        return new CommonUtils(application);
     }
 }

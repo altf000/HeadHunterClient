@@ -9,12 +9,14 @@ import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
 
 /**
  * Created by neox on 12/9/17.
+ * Презентер списка вакансий
  */
 
 public class VacancyListPresenterImpl extends VacancyListPresenter {
 
     private VacancyListInteractor mVacancyListInterceptor;
     private String mQuery;
+    private int mCurrentPage;
 
     @Inject
     VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor) {
@@ -24,21 +26,31 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
 
     @Override
     public void getVacancies() {
-        getView().showLoading();
-        getVacancies(mQuery);
+        getVacancies(mQuery, false);
     }
 
     @Override
     public void getVacancies(String query) {
+        this.mQuery = query;
+        this.mCurrentPage = 0;
+        getVacancies(mQuery, false);
+    }
+
+    @Override
+    public void getVacancies(String query, boolean loadMore) {
         getView().showLoading();
+        if (!loadMore) {
+            mCurrentPage = 0;
+        }
         mQuery = query;
-        mVacancyListInterceptor.setQuery(query);
+        mVacancyListInterceptor.setQuery(mQuery);
+        mVacancyListInterceptor.setPage(mCurrentPage);
         mVacancyListInterceptor.execute(new InteractorObserver<VacancyList>() {
             @Override
             public void onNext(VacancyList vacancyList) {
-                getView().getVacanciesDone(vacancyList);
+                getView().getVacanciesDone(vacancyList, loadMore);
                 getView().hideLoading();
-                if (vacancyList.getFound() == 0 || vacancyList.getItems().isEmpty()) {
+                if (vacancyList.getItems().isEmpty() && !loadMore) {
                     getView().showNoDataError();
                 }
             }
@@ -64,5 +76,10 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
 
     public void setQuery(String query) {
         this.mQuery = query;
+    }
+
+    @Override
+    public void setPage(int page) {
+        this.mCurrentPage = page;
     }
 }
