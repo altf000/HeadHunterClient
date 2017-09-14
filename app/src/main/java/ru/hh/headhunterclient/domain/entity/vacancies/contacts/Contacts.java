@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.domain.entity.vacancies.contacts;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
@@ -9,8 +11,13 @@ public class Contacts extends RealmObject {
     public static final String EMAIL = "email";
     public static final String PHONES = "phones";
 
+    @SerializedName(NAME)
     private String name;
+
+    @SerializedName(EMAIL)
     private String email;
+
+    @SerializedName(PHONES)
     private RealmList<Phones> phones;
 
     public Contacts() {

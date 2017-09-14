@@ -14,13 +14,22 @@ public class Employer extends RealmObject {
     public static final String ID = "id";
     public static final String TRUSTED = "trusted";
 
-    @SerializedName("vacancies_url")
+    @SerializedName(VACANCIES_URL)
     private String vacanciesUrl;
+
+    @SerializedName(NAME)
     private String name;
+
+    @SerializedName(URL)
     private String url;
-    @SerializedName("alternate_url")
+
+    @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
+
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(TRUSTED)
     private boolean trusted;
 
     public Employer() {

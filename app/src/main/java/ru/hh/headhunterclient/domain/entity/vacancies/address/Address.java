@@ -16,14 +16,28 @@ public class Address extends RealmObject {
     public static final String ID = "id";
     public static final String METRO = "metro";
 
+    @SerializedName(BUILDING)
     private String building;
+
+    @SerializedName(CITY)
     private String city;
-    @SerializedName("metro_stations")
+
+    @SerializedName(METRO_STATIONS)
     private RealmList<MetroStations> metroStations;
+
+    @SerializedName(STREET)
     private String street;
+
+    @SerializedName(LAT)
     private float lat;
+
+    @SerializedName(LNG)
     private float lng;
+
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(METRO)
     private Metro metro;
 
     public Address() {

@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.domain.entity.vacancies.common;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 
 public class Salary extends RealmObject {
@@ -9,9 +11,16 @@ public class Salary extends RealmObject {
     public static final String CURRENCY = "currency";
     public static final String TO = "to";
 
+    @SerializedName(GROSS)
     private boolean gross;
+
+    @SerializedName(FROM)
     private Long from;
+
+    @SerializedName(CURRENCY)
     private String currency;
+
+    @SerializedName(TO)
     private Long to;
 
     public Salary() {

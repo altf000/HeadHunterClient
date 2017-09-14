@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.domain.entity.vacancies.common;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 
 public class Snippet extends RealmObject {
@@ -7,7 +9,10 @@ public class Snippet extends RealmObject {
     public static final String REQUIREMENT = "requirement";
     public static final String RESPONSIBILITY = "responsibility";
 
+    @SerializedName(REQUIREMENT)
     private String requirement;
+
+    @SerializedName(RESPONSIBILITY)
     private String responsibility;
 
     public Snippet() {

@@ -43,6 +43,7 @@ public class VacancyDetailActivity extends BaseActivity {
         setCustomContentView(R.layout.activity_base);
         initToolbar(mToolbar);
         setTitle(getString(R.string.detailing));
+        setBackEnabled();
 
         if (mUtils.isLarge()) {
             finish();

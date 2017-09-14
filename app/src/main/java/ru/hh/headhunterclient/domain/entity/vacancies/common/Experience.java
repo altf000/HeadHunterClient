@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.domain.entity.vacancies.common;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 
 public class Experience extends RealmObject {
@@ -7,7 +9,10 @@ public class Experience extends RealmObject {
     public static final String ID = "id";
     public static final String NAME = "name";
 
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(NAME)
     private String name;
 
     public Experience() {

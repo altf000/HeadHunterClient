@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.domain.entity.vacancies.common;
 
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 
 public class Area extends RealmObject {
@@ -8,8 +10,13 @@ public class Area extends RealmObject {
     public static final String ID = "id";
     public static final String NAME = "name";
 
+    @SerializedName(URL)
     private String url;
+
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(NAME)
     private String name;
 
     public Area() {

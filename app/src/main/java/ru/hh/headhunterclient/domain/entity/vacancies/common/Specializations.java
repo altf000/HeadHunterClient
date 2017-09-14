@@ -11,11 +11,16 @@ public class Specializations extends RealmObject {
     public static final String ID = "id";
     public static final String NAME = "name";
 
-    @SerializedName("profarea_id")
+    @SerializedName(PROFAREA_ID)
     private String profareaID;
-    @SerializedName("profarea_name")
+
+    @SerializedName(PROFAREA_NAME)
     private String profareaName;
+
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(NAME)
     private String name;
 
     public Specializations() {

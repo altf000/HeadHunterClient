@@ -13,16 +13,22 @@ public class Metro extends RealmObject {
     public static final String STATION_NAME = "station_name";
     public static final String LNG = "lng";
 
-    @SerializedName("line_name")
+    @SerializedName(LINE_NAME)
     private String lineName;
-    @SerializedName("station_id")
+
+    @SerializedName(STATION_ID)
     private String stationID;
-    @SerializedName("line_id")
+
+    @SerializedName(LINE_ID)
     private String lineID;
-    @SerializedName("")
+
+    @SerializedName(LAT)
     private float lat;
-    @SerializedName("station_name")
+
+    @SerializedName(STATION_NAME)
     private String stationName;
+
+    @SerializedName(LNG)
     private float lng;
 
     public Metro() {
