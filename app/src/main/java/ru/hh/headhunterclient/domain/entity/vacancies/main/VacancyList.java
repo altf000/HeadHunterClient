@@ -5,11 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-/**
- * Created by neox on 12.09.17.
- * Сгенерированные классы! Прошу не обращать внимание на code conventions
- */
-
 public class VacancyList extends RealmObject {
 
     public static final String ITEMS = "items";
@@ -19,13 +14,22 @@ public class VacancyList extends RealmObject {
     public static final String PER_PAGE = "per_page";
     public static final String PAGE = "page";
 
+    @SerializedName(ITEMS)
     private RealmList<Vacancy> items;
+
+    @SerializedName(PAGES)
     private int pages;
+
+    @SerializedName(FOUND)
     private int found;
-    @SerializedName("alternate_url")
+
+    @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
-    @SerializedName("per_page")
+
+    @SerializedName(PER_PAGE)
     private int perPage;
+
+    @SerializedName(PAGE)
     private int page;
 
     public VacancyList() {

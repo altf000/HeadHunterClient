@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Area;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.BillingType;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Department;
@@ -17,13 +18,7 @@ import ru.hh.headhunterclient.domain.entity.vacancies.common.Schedule;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Specializations;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Test;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Type;
-import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
 import ru.hh.headhunterclient.domain.entity.vacancies.contacts.Contacts;
-
-/**
- * Created by neox on 12.09.17.
- * Сгенерированные классы! Прошу не обращать внимание на code conventions
- */
 
 public class VacancyDetail extends RealmObject {
 
@@ -56,41 +51,85 @@ public class VacancyDetail extends RealmObject {
     public static final String PREMIUM = "premium";
 
     @PrimaryKey
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(DESCRIPTION)
     private String description;
-    @SerializedName("branded_description")
+
+    @SerializedName(BRANDED_DESCRIPTION)
     private String brandedDescription;
-    @SerializedName("key_skills")
+
+    @SerializedName(KEY_SKILLS)
     private RealmList<KeySkills> keySkills;
+
+    @SerializedName(SCHEDULE)
     private Schedule schedule;
-    @SerializedName("accept_handicapped")
+
+    @SerializedName(ACCEPT_HANDICAPPED)
     private boolean acceptHandicapped;
+
+    @SerializedName(EXPERIENCE)
     private Experience experience;
+
+    @SerializedName(ADDRESS)
     private Address address;
-    @SerializedName("alternate_url")
+
+    @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
-    @SerializedName("apply_alternateUrl")
+
+    @SerializedName(APPLY_ALTERNATE_URL)
     private String applyAlternateUrl;
+
+    @SerializedName(CODE)
     private String code;
+
+    @SerializedName(DEPARTMENT)
     private Department department;
+
+    @SerializedName(EMPLOYMENT)
     private Employment employment;
+
+    @SerializedName(SALARY)
     private Salary salary;
+
+    @SerializedName(ARCHIVED)
     private boolean archived;
+
+    @SerializedName(NAME)
     private String name;
+
+    @SerializedName(AREA)
     private Area area;
-    @SerializedName("published_at")
+
+    @SerializedName(PUBLISHED_AT)
     private String publishedAt;
+
+    @SerializedName(EMPLOYER)
     private Employer employer;
-    @SerializedName("response_letter_required")
+
+    @SerializedName(RESPONSE_LETTER_REQUIRED)
     private boolean responseLetterRequired;
+
+    @SerializedName(TYPE)
     private Type type;
+
+    @SerializedName(TEST)
     private Test test;
+
+    @SerializedName(SPECIALIZATIONS)
     private RealmList<Specializations> specializations;
+
+    @SerializedName(CONTACTS)
     private Contacts contacts;
-    @SerializedName("billing_type")
+
+    @SerializedName(BILLING_TYPE)
     private BillingType billingType;
-    @SerializedName("allow_messages")
+
+    @SerializedName(ALLOW_MESSAGES)
     private boolean allowMessages;
+
+    @SerializedName(PREMIUM)
     private boolean premium;
 
     public VacancyDetail() {

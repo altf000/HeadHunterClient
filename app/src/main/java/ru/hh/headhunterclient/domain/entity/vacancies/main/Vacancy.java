@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Area;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Employer;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Relations;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Salary;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Snippet;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.Type;
-import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
 
 public class Vacancy extends RealmObject {
 
@@ -34,27 +34,55 @@ public class Vacancy extends RealmObject {
     public static final String ADDRESS = "address";
 
     @PrimaryKey
+    @SerializedName(ID)
     private String id;
+
+    @SerializedName(SALARY)
     private Salary salary;
+
+    @SerializedName(SNIPPET)
     private Snippet snippet;
+
+    @SerializedName(ARCHIVED)
     private boolean archived;
+
+    @SerializedName(PREMIUM)
     private boolean premium;
+
+    @SerializedName(NAME)
     private String name;
+
+    @SerializedName(AREA)
     private Area area;
+
+    @SerializedName(URL)
     private String url;
-    @SerializedName("created_at")
+
+    @SerializedName(CREATED_AT)
     private String createdAt;
-    @SerializedName("alternate_url")
+
+    @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
-    @SerializedName("apply_alternate_url")
+
+    @SerializedName(APPLY_ALTERNATE_URL)
     private String applyAlternateUrl;
+
+    @SerializedName(RELATIONS)
     private RealmList<Relations> relations;
+
+    @SerializedName(EMPLOYER)
     private Employer employer;
-    @SerializedName("response_letter_required")
+
+    @SerializedName(RESPONSE_LETTER_REQUIRED)
     private boolean responseLetterRequired;
-    @SerializedName("publishedAt")
+
+    @SerializedName(PUBLISHED_AT)
     private String published_at;
+
+    @SerializedName(TYPE)
     private Type type;
+
+    @SerializedName(ADDRESS)
     private Address address;
 
     public Vacancy() {
