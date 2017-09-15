@@ -44,10 +44,10 @@ public class Vacancy extends RealmObject {
     private Snippet snippet;
 
     @SerializedName(ARCHIVED)
-    private boolean archived;
+    private Boolean archived;
 
     @SerializedName(PREMIUM)
-    private boolean premium;
+    private Boolean premium;
 
     @SerializedName(NAME)
     private String name;
@@ -74,7 +74,7 @@ public class Vacancy extends RealmObject {
     private Employer employer;
 
     @SerializedName(RESPONSE_LETTER_REQUIRED)
-    private boolean responseLetterRequired;
+    private Boolean responseLetterRequired;
 
     @SerializedName(PUBLISHED_AT)
     private String published_at;
@@ -106,20 +106,20 @@ public class Vacancy extends RealmObject {
         return this;
     }
 
-    public boolean getArchived() {
+    public Boolean getArchived() {
         return this.archived;
     }
 
-    public Vacancy setArchived(boolean archived) {
+    public Vacancy setArchived(Boolean archived) {
         this.archived = archived;
         return this;
     }
 
-    public boolean getPremium() {
+    public Boolean getPremium() {
         return this.premium;
     }
 
-    public Vacancy setPremium(boolean premium) {
+    public Vacancy setPremium(Boolean premium) {
         this.premium = premium;
         return this;
     }
@@ -196,11 +196,11 @@ public class Vacancy extends RealmObject {
         return this;
     }
 
-    public boolean getResponseLetterRequired() {
+    public Boolean getResponseLetterRequired() {
         return this.responseLetterRequired;
     }
 
-    public Vacancy setResponseLetterRequired(boolean responseLetterRequired) {
+    public Vacancy setResponseLetterRequired(Boolean responseLetterRequired) {
         this.responseLetterRequired = responseLetterRequired;
         return this;
     }

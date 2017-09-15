@@ -56,4 +56,8 @@ public class VacancyListAdapter extends RecyclerView.Adapter<VacancyListViewHold
         }
         this.notifyDataSetChanged();
     }
+
+    public List<Vacancy> getmList() {
+        return mList;
+    }
 }

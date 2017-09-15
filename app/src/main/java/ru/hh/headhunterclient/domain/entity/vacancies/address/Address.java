@@ -29,10 +29,10 @@ public class Address extends RealmObject {
     private String street;
 
     @SerializedName(LAT)
-    private float lat;
+    private Float lat;
 
     @SerializedName(LNG)
-    private float lng;
+    private Float lng;
 
     @SerializedName(ID)
     private String id;
@@ -88,11 +88,11 @@ public class Address extends RealmObject {
         return this;
     }
 
-    public float getLng() {
+    public Float getLng() {
         return this.lng;
     }
 
-    public Address setLng(float lng) {
+    public Address setLng(Float lng) {
         this.lng = lng;
         return this;
     }

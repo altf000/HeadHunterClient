@@ -23,13 +23,13 @@ public class Metro extends RealmObject {
     private String lineID;
 
     @SerializedName(LAT)
-    private float lat;
+    private Float lat;
 
     @SerializedName(STATION_NAME)
     private String stationName;
 
     @SerializedName(LNG)
-    private float lng;
+    private Float lng;
 
     public Metro() {
     }
@@ -79,11 +79,11 @@ public class Metro extends RealmObject {
         return this;
     }
 
-    public float getLng() {
+    public Float getLng() {
         return this.lng;
     }
 
-    public Metro setLng(float lng) {
+    public Metro setLng(Float lng) {
         this.lng = lng;
         return this;
     }

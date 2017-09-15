@@ -9,16 +9,16 @@ public class Test extends RealmObject {
     public static final String REQUIRED = "required";
 
     @SerializedName(REQUIRED)
-    private boolean required;
+    private Boolean required;
 
     public Test() {
     }
 
-    public boolean getRequired() {
+    public Boolean getRequired() {
         return this.required;
     }
 
-    public Test setRequired(boolean required) {
+    public Test setRequired(Boolean required) {
         this.required = required;
         return this;
     }

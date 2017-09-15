@@ -30,7 +30,7 @@ public class Employer extends RealmObject {
     private String id;
 
     @SerializedName(TRUSTED)
-    private boolean trusted;
+    private Boolean trusted;
 
     public Employer() {
     }
@@ -80,11 +80,11 @@ public class Employer extends RealmObject {
         return this;
     }
 
-    public boolean getTrusted() {
+    public Boolean getTrusted() {
         return this.trusted;
     }
 
-    public Employer setTrusted(boolean trusted) {
+    public Employer setTrusted(Boolean trusted) {
         this.trusted = trusted;
         return this;
     }

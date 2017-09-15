@@ -14,9 +14,7 @@ public interface VacancyStore {
 
     Observable<VacancyDetail> getVacancyDetail(String id);
 
-    void clearVacancyList();
-
-    void saveVacancyList(VacancyList vacancyList);
+    void saveVacancyList(VacancyList vacancyList, boolean clear);
 
     void saveVacancyDetail(VacancyDetail vacancyDetail);
 }

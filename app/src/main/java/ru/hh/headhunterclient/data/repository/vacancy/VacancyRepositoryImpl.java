@@ -33,10 +33,7 @@ public class VacancyRepositoryImpl implements VacancyRepository {
         return Observable.create((ObservableOnSubscribe<VacancyList>) e -> mVacancyCloudStorage
                 .getVacancies(query, page)
                 .doOnNext(vacancyList -> {
-                    if (page == 0) {
-                        mVacancyLocalStorage.clearVacancyList();
-                    }
-                    mVacancyLocalStorage.saveVacancyList(vacancyList);
+                    mVacancyLocalStorage.saveVacancyList(vacancyList, page == 0);
                 })
                 .subscribe(vacancyList -> {
                     if (!e.isDisposed()) {

@@ -22,8 +22,8 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.data.Keywords;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.presentation.vacancy.list.VacancyListPresenter;
@@ -65,6 +65,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     private VacancyListActivity.OnItemSelectedListener mItemSelectedListener;
     private View mView;
     private VacancyListAdapter mAdapter;
+    private VacancyList mVacancyList;
 
     public static VacancyListFragment newInstance() {
         return new VacancyListFragment();
@@ -91,7 +92,11 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
         mQueryEditText.setText(mQuery.get());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mLoadMoreListener = new LoadMoreListener(layoutManager);
-        mLoadMoreListener.setOnLoadMoreListener(() -> mVacancyListPresenter.getVacancies(mQuery.get(), true));
+        mLoadMoreListener.setOnLoadMoreListener(() -> {
+            if (mAdapter.getItemCount() >= mVacancyList.getPerPage()) {
+                mVacancyListPresenter.getVacancies(mQuery.get(), true);
+            }
+        });
         mAdapter = new VacancyListAdapter(getContext(), mItemSelectedListener);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -138,11 +143,12 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
 
     @Override
     public void getVacanciesDone(VacancyList vacancyList, boolean loadMore) {
-        if (loadMore && vacancyList.getItems().size() != Constants.PAGE_SIZE) {
+        mVacancyList = vacancyList;
+        if (loadMore && mVacancyList.getItems().size() != mVacancyList.getPerPage()) {
             mLoadMoreListener.setDone(true);
         }
-        mAdapter.setList(vacancyList.getItems(), loadMore);
-        mVacancyListPresenter.setPage(mAdapter.getItemCount() / Constants.PAGE_SIZE);
+        mAdapter.setList(mVacancyList.getItems(), loadMore);
+        mVacancyListPresenter.setPage(mAdapter.getItemCount() / mVacancyList.getPerPage());
     }
 
     private void createSearchViewObservable() {

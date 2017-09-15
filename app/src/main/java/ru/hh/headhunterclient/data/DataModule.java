@@ -11,8 +11,8 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import ru.hh.headhunterclient.data.repository.RepositoryModule;
-import ru.hh.headhunterclient.utils.Constants;
 import ru.hh.headhunterclient.utils.CommonUtils;
+import ru.hh.headhunterclient.utils.Constants;
 
 import static android.content.Context.MODE_PRIVATE;
 

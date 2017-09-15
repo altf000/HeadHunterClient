@@ -45,7 +45,7 @@ public class LoadMoreListener extends RecyclerView.OnScrollListener {
             mIsLoading = false;
         }
 
-        if (!mDone && !mIsLoading && totalItemCount <= (mLastVisibleItem + 1) && totalItemCount >= Constants.PAGE_SIZE && mOnLoadMoreListener != null) {
+        if (!mDone && !mIsLoading && totalItemCount <= (mLastVisibleItem + 1) && mOnLoadMoreListener != null) {
             mOnLoadMoreListener.onLoadMore();
             mIsLoading = true;
         }

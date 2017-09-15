@@ -31,12 +31,7 @@ public class VacancyCloudStorage implements VacancyStore {
     }
 
     @Override
-    public void clearVacancyList() {
-        throw new UnsupportedOperationException("You can not save or remove data on cloud");
-    }
-
-    @Override
-    public void saveVacancyList(VacancyList vacancyList) {
+    public void saveVacancyList(VacancyList vacancyList, boolean clear) {
         throw new UnsupportedOperationException("You can not save or remove data on cloud");
     }
 

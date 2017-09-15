@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 
-import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.ui.base.BaseActivity;
 import ru.hh.headhunterclient.ui.detail.VacancyDetailActivity;
 import ru.hh.headhunterclient.ui.detail.VacancyDetailFragment;

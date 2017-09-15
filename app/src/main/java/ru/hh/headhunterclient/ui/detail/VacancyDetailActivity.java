@@ -8,8 +8,8 @@ import android.support.v4.app.Fragment;
 
 import javax.inject.Inject;
 
-import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.R;
+import ru.hh.headhunterclient.app.App;
 import ru.hh.headhunterclient.ui.base.BaseActivity;
 import ru.hh.headhunterclient.utils.CommonUtils;
 

@@ -12,7 +12,7 @@ public class Salary extends RealmObject {
     public static final String TO = "to";
 
     @SerializedName(GROSS)
-    private boolean gross;
+    private Boolean gross;
 
     @SerializedName(FROM)
     private Long from;
@@ -26,11 +26,11 @@ public class Salary extends RealmObject {
     public Salary() {
     }
 
-    public boolean getGross() {
+    public Boolean getGross() {
         return this.gross;
     }
 
-    public Salary setGross(boolean gross) {
+    public Salary setGross(Boolean gross) {
         this.gross = gross;
         return this;
     }

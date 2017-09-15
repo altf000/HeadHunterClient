@@ -18,19 +18,19 @@ public class VacancyList extends RealmObject {
     private RealmList<Vacancy> items;
 
     @SerializedName(PAGES)
-    private int pages;
+    private Integer pages;
 
     @SerializedName(FOUND)
-    private int found;
+    private Integer found;
 
     @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
 
     @SerializedName(PER_PAGE)
-    private int perPage;
+    private Integer perPage;
 
     @SerializedName(PAGE)
-    private int page;
+    private Integer page;
 
     public VacancyList() {
     }
@@ -44,20 +44,20 @@ public class VacancyList extends RealmObject {
         return this;
     }
 
-    public int getPages() {
+    public Integer getPages() {
         return this.pages;
     }
 
-    public VacancyList setPages(int pages) {
+    public VacancyList setPages(Integer pages) {
         this.pages = pages;
         return this;
     }
 
-    public int getFound() {
+    public Integer getFound() {
         return this.found;
     }
 
-    public VacancyList setFound(int found) {
+    public VacancyList setFound(Integer found) {
         this.found = found;
         return this;
     }
@@ -71,11 +71,11 @@ public class VacancyList extends RealmObject {
         return this;
     }
 
-    public int getPerPage() {
+    public Integer getPerPage() {
         return this.perPage;
     }
 
-    public VacancyList setPerPage(int perPage) {
+    public VacancyList setPerPage(Integer perPage) {
         this.perPage = perPage;
         return this;
     }
@@ -84,7 +84,7 @@ public class VacancyList extends RealmObject {
         return this.page;
     }
 
-    public VacancyList setPage(int page) {
+    public VacancyList setPage(Integer page) {
         this.page = page;
         return this;
     }

@@ -1,15 +1,11 @@
 package ru.hh.headhunterclient.data.repository.vacancy;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmQuery;
 import ru.hh.headhunterclient.data.exception.NetworkConnectionException;
-import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
@@ -29,11 +25,9 @@ public class VacancyLocalStorage implements VacancyStore {
     public Observable<VacancyList> getVacancies(String query, int page) {
         Realm realm = Realm.getDefaultInstance();
         if (ifVacancyListExists(realm)) {
-            List<Vacancy> list = realm.copyFromRealm(realm.where(Vacancy.class).findAll());
+            VacancyList list = realm.copyFromRealm(realm.where(VacancyList.class).findFirst());
             realm.close();
-            VacancyList vacancyList = new VacancyList();
-            vacancyList.setItems(new RealmList<>(list.toArray(new Vacancy[list.size()])));
-            return Observable.just(vacancyList);
+            return Observable.just(list);
         }
         realm.close();
         return Observable.error(new NetworkConnectionException());
@@ -52,16 +46,21 @@ public class VacancyLocalStorage implements VacancyStore {
     }
 
     @Override
-    public void clearVacancyList() {
+    public void saveVacancyList(VacancyList vacancyList, boolean clear) {
         Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.delete(Vacancy.class));
-        realm.close();
-    }
-
-    @Override
-    public void saveVacancyList(VacancyList vacancyList) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> realm1.insertOrUpdate(vacancyList.getItems()));
+        if (clear) {
+            realm.beginTransaction();
+            realm.delete(VacancyList.class);
+            realm.insertOrUpdate(vacancyList);
+            realm.commitTransaction();
+        } else {
+            realm.beginTransaction();
+            VacancyList realmList = realm.copyFromRealm(realm.where(VacancyList.class).findFirst());
+            realmList.getItems().addAll(vacancyList.getItems());
+            realm.delete(VacancyList.class);
+            realm.insertOrUpdate(realmList);
+            realm.commitTransaction();
+        }
         realm.close();
     }
 
@@ -73,7 +72,7 @@ public class VacancyLocalStorage implements VacancyStore {
     }
 
     private boolean ifVacancyListExists(Realm realm) {
-        RealmQuery<Vacancy> query = realm.where(Vacancy.class);
+        RealmQuery<VacancyList> query = realm.where(VacancyList.class);
         return query.count() != 0;
     }
 
