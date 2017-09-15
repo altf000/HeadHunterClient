@@ -16,9 +16,7 @@ public class CommonUtils {
     }
 
     public boolean isLarge() {
-        return (mContext.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
-                && mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        return mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 
 }

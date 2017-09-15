@@ -64,6 +64,13 @@ public class BaseActivity extends AppCompatActivity {
                 .commitNow();
     }
 
+    public void removeFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(fragment)
+                .commitNow();
+    }
+
     public void changeFragmentBackStack(Fragment fragment, @IdRes int containerId) {
         getSupportFragmentManager()
                 .beginTransaction()

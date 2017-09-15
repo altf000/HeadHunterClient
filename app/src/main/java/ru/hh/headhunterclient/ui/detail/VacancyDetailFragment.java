@@ -91,6 +91,9 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
 
     @Override
     public void showError(String error) {
+        if (mView == null) {
+            return;
+        }
         Snackbar.make(mView, error, Snackbar.LENGTH_LONG)
                 .setAction(R.string.try_again_snack_bar, v -> mPresenter.getVacancyDetail(mID))
                 .show();
