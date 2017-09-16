@@ -1,6 +1,7 @@
 package ru.hh.headhunterclient.ui.main;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -39,6 +40,8 @@ import ru.hh.headhunterclient.utils.LoadMoreListener;
 
 public class VacancyListFragment extends BaseFragment implements VacancyListView {
 
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+
     @BindView(R.id.mainLayout)
     View mMainLayout;
 
@@ -61,10 +64,11 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Keywords
     Preference<String> mQuery;
 
+    private View mView;
     private LoadMoreListener mLoadMoreListener;
     private VacancyListActivity.OnItemSelectedListener mItemSelectedListener;
-    private View mView;
     private VacancyListAdapter mAdapter;
+    private Parcelable mRecyclerViewState;
     private int mAllItemsCount;
 
     public static VacancyListFragment newInstance() {
@@ -77,6 +81,9 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
         App.getAppComponent().inject(this);
         mVacancyListPresenter.attachView(this);
         mVacancyListPresenter.setQuery(mQuery.get());
+        if (savedInstanceState != null) {
+            mRecyclerViewState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
+        }
     }
 
     @Nullable
@@ -136,6 +143,21 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
         mAllItemsCount = vacancyList.getFound();
         mAdapter.setList(vacancyList.getItems(), loadMore);
         mVacancyListPresenter.setPage(mAdapter.getItemCount() / vacancyList.getPerPage());
+        restoreState();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Parcelable listState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(KEY_RECYCLER_STATE, listState);
+    }
+
+    private void restoreState() {
+        if (mRecyclerViewState != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(mRecyclerViewState);
+            mRecyclerViewState = null;
+        }
     }
 
     private void createSearchViewObservable() {
