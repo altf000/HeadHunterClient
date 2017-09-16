@@ -28,6 +28,9 @@ import ru.hh.headhunterclient.ui.base.BaseFragment;
 
 public class VacancyDetailFragment extends BaseFragment implements DetailVacancyView {
 
+    @BindView(R.id.container)
+    View mContainer;
+
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
 
@@ -81,11 +84,13 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
 
     @Override
     public void showLoading() {
+        mContainer.setVisibility(View.GONE);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
+        mContainer.setVisibility(View.VISIBLE);
         mProgressBar.setVisibility(View.GONE);
     }
 

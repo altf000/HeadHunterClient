@@ -28,4 +28,11 @@ public class BaseFragment extends Fragment {
         super.onDestroyView();
         mUnbinder.unbind();
     }
+
+    public void setSubtitle(String text) {
+        BaseActivity baseActivity = (BaseActivity) getActivity();
+        if (baseActivity.getSupportActionBar() != null) {
+            baseActivity.getSupportActionBar().setSubtitle(text);
+        }
+    }
 }

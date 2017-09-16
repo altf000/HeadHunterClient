@@ -16,7 +16,6 @@ import ru.hh.headhunterclient.domain.repository.VacancyRepository;
  * Created by neox on 12/9/17.
  * Репозиторий вакансий
  */
-
 public class VacancyRepositoryImpl implements VacancyRepository {
 
     private VacancyCloudStorage mVacancyCloudStorage;
@@ -29,31 +28,48 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     @Override
-    public Observable<VacancyList> getVacancies(final String query, final int page) {
-        return Observable.create((ObservableOnSubscribe<VacancyList>) e -> mVacancyCloudStorage
-                .getVacancies(query, page)
-                .doOnNext(vacancyList -> {
-                    mVacancyLocalStorage.saveVacancyList(vacancyList, page == 0);
-                })
-                .subscribe(vacancyList -> {
-                    if (!e.isDisposed()) {
-                        e.onNext(vacancyList);
-                    }
-                }, throwable -> {
-                    if (!e.isDisposed()) {
-                        getVacanciesFromLocal(e, throwable, page);
-                    }
-                }))
+    public Observable<VacancyList> getVacancies(final String query, final int page, final boolean cached, final boolean loadMore) {
+        return Observable.create((ObservableOnSubscribe<VacancyList>) e -> {
+            if (cached) {
+                // вакансии из бд
+                mVacancyLocalStorage
+                        .getVacancies(query, page)
+                        .subscribe(vacancyList -> {
+                            if (!e.isDisposed()) {
+                                e.onNext(vacancyList);
+                            }
+                        }, throwable -> {
+                            if (!e.isDisposed()) {
+                                e.onError(ExceptionFactory.getException(throwable));
+                            }
+                        });
+            } else {
+                // вакансии из сети
+                mVacancyCloudStorage
+                        .getVacancies(query, page)
+                        .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !loadMore))
+                        .subscribe(vacancyList -> {
+                            if (!e.isDisposed()) {
+                                e.onNext(vacancyList);
+                            }
+                        }, throwable -> {
+                            if (!e.isDisposed()) {
+                                getVacanciesFromLocalStorage(e, throwable, loadMore);
+                            }
+                        });
+            }
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread(), true);
     }
 
-    private void getVacanciesFromLocal(ObservableEmitter<VacancyList> e, Throwable t, int page) {
+    private void getVacanciesFromLocalStorage(ObservableEmitter<VacancyList> e, Throwable t, boolean loadMore) {
+        // вакансии из бд в случае ошибки получения данны из сети
         mVacancyLocalStorage
                 .getVacancies(null, 0)
                 .subscribe(vacancyList -> {
                     if (!e.isDisposed()) {
-                        if (page == 0) {
+                        if (!loadMore) {
                             e.onNext(vacancyList);
                         }
                         e.onError(ExceptionFactory.getException(t));
@@ -76,14 +92,14 @@ public class VacancyRepositoryImpl implements VacancyRepository {
                     }
                 }, throwable -> {
                     if (!e.isDisposed()) {
-                        getVacancyDetailFromLocal(e, throwable, id);
+                        getVacancyDetailFromLocalStorage(e, throwable, id);
                     }
                 }))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread(), true);
     }
 
-    private void getVacancyDetailFromLocal(ObservableEmitter<VacancyDetail> e, Throwable t, String id) {
+    private void getVacancyDetailFromLocalStorage(ObservableEmitter<VacancyDetail> e, Throwable t, String id) {
         mVacancyLocalStorage
                 .getVacancyDetail(id)
                 .subscribe(vacancyDetail -> {

@@ -65,7 +65,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     private VacancyListActivity.OnItemSelectedListener mItemSelectedListener;
     private View mView;
     private VacancyListAdapter mAdapter;
-    private VacancyList mVacancyList;
+    private int mAllItemsCount;
 
     public static VacancyListFragment newInstance() {
         return new VacancyListFragment();
@@ -90,28 +90,21 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mQueryEditText.setText(mQuery.get());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mLoadMoreListener = new LoadMoreListener(layoutManager);
-        mLoadMoreListener.setOnLoadMoreListener(() -> {
-            if (mAdapter.getItemCount() >= mVacancyList.getPerPage()) {
-                mVacancyListPresenter.getVacancies(mQuery.get(), true);
-            }
-        });
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreListener = new LoadMoreListener(linearLayoutManager);
+        mLoadMoreListener.setOnLoadMoreListener(this::loadMore);
         mAdapter = new VacancyListAdapter(getContext(), mItemSelectedListener);
-        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mLoadMoreListener);
-        mRefreshLayout.setOnRefreshListener(() -> {
-            mLoadMoreListener.refresh();
-            mVacancyListPresenter.getVacancies();
-        });
+        mRefreshLayout.setOnRefreshListener(this::refreshList);
         createSearchViewObservable();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mVacancyListPresenter.getVacancies();
+        mVacancyListPresenter.getVacancies(savedInstanceState != null);
     }
 
     @Override
@@ -129,6 +122,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Override
     public void hideLoading() {
         mRefreshLayout.setRefreshing(false);
+        mNoDataError.setVisibility(mAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -137,32 +131,38 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     }
 
     @Override
-    public void showNoDataError() {
-        mNoDataError.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void getVacanciesDone(VacancyList vacancyList, boolean loadMore) {
-        mVacancyList = vacancyList;
-        if (loadMore && mVacancyList.getItems().size() != mVacancyList.getPerPage()) {
-            mLoadMoreListener.setDone(true);
-        }
-        mAdapter.setList(mVacancyList.getItems(), loadMore);
-        mVacancyListPresenter.setPage(mAdapter.getItemCount() / mVacancyList.getPerPage());
+        setSubtitle(String.format(getString(R.string.vacancy_count), vacancyList.getFound()));
+        mAllItemsCount = vacancyList.getFound();
+        mAdapter.setList(vacancyList.getItems(), loadMore);
+        mVacancyListPresenter.setPage(mAdapter.getItemCount() / vacancyList.getPerPage());
     }
 
     private void createSearchViewObservable() {
         RxTextView.textChanges(mQueryEditText)
                 .debounce(Constants.EDIT_TEXT_CHANGES_DELAY, TimeUnit.MILLISECONDS)
                 .map(CharSequence::toString)
-                .skip(1)
                 .doOnNext(s -> mQuery.set(s))
+                .skip(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    mLoadMoreListener.refresh();
-                    mVacancyListPresenter.getVacancies(s);
-                });
+                .subscribe(this::searchList);
+    }
+
+    private void loadMore() {
+        if (mAllItemsCount > mAdapter.getItemCount()) {
+            mVacancyListPresenter.loadMore();
+        }
+    }
+
+    private void searchList(String query) {
+        mLoadMoreListener.refresh();
+        mVacancyListPresenter.getVacancies(query);
+    }
+
+    private void refreshList() {
+        mLoadMoreListener.refresh();
+        mVacancyListPresenter.getVacancies(false);
     }
 
     public void setListener(VacancyListActivity.OnItemSelectedListener listener) {

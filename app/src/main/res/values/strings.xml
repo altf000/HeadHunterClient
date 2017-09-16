@@ -18,4 +18,5 @@
     <string name="to_format" formatted="false">До %d %s</string>
     <string name="vacancy_desc" formatted="false">%s, %s</string>
     <string name="detailing">Детализация</string>
+    <string name="vacancy_count" formatted="false">Количество вакансий: %d</string>
 </resources>

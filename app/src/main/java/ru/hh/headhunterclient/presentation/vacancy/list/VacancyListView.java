@@ -11,6 +11,4 @@ public interface VacancyListView extends MvpView {
 
     void getVacanciesDone(VacancyList vacancyList, boolean loadMore);
 
-    void showNoDataError();
-
 }

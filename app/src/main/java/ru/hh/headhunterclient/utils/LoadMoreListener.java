@@ -14,7 +14,6 @@ public class LoadMoreListener extends RecyclerView.OnScrollListener {
     private OnLoadMoreListener mOnLoadMoreListener;
     private RecyclerView.LayoutManager mLayoutManager;
     private boolean mIsLoading;
-    private boolean mDone;
     private int mLastVisibleItem;
 
     public LoadMoreListener(LinearLayoutManager layoutManager) {
@@ -45,13 +44,13 @@ public class LoadMoreListener extends RecyclerView.OnScrollListener {
             mIsLoading = false;
         }
 
-        if (!mDone && !mIsLoading && totalItemCount <= (mLastVisibleItem + 1) && mOnLoadMoreListener != null) {
+        if (!mIsLoading && totalItemCount <= (mLastVisibleItem + 1) && mOnLoadMoreListener != null) {
             mOnLoadMoreListener.onLoadMore();
             mIsLoading = true;
         }
     }
 
-    public int getLastVisibleItem(int[] lastVisibleItemPositions) {
+    private int getLastVisibleItem(int[] lastVisibleItemPositions) {
         int maxSize = 0;
         for (int i = 0; i < lastVisibleItemPositions.length; i++) {
             if (i == 0) {
@@ -65,11 +64,6 @@ public class LoadMoreListener extends RecyclerView.OnScrollListener {
 
     public void refresh() {
         mIsLoading = false;
-        mDone = false;
-    }
-
-    public void setDone(boolean done) {
-        this.mDone = done;
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener mOnLoadMoreListener) {

@@ -16,6 +16,8 @@ public class VacancyListInteractor extends Interactor<VacancyList> {
     private VacancyRepository mVacancyRepository;
     private String mQuery;
     private int mPage;
+    private boolean mCached;
+    private boolean mLoadMore;
 
     @Inject
     public VacancyListInteractor(VacancyRepository vacancyRepository) {
@@ -24,7 +26,7 @@ public class VacancyListInteractor extends Interactor<VacancyList> {
 
     @Override
     protected Observable<VacancyList> createObservableInteractor() {
-        return mVacancyRepository.getVacancies(mQuery, mPage);
+        return mVacancyRepository.getVacancies(mQuery, mPage, mCached, mLoadMore);
     }
 
     public void setQuery(String query) {
@@ -33,5 +35,13 @@ public class VacancyListInteractor extends Interactor<VacancyList> {
 
     public void setPage(int page) {
         this.mPage = page;
+    }
+
+    public void setCached(boolean mCached) {
+        this.mCached = mCached;
+    }
+
+    public void setLoadMore(boolean mLoadMore) {
+        this.mLoadMore = mLoadMore;
     }
 }

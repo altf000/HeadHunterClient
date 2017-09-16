@@ -17,6 +17,8 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
     private VacancyListInteractor mVacancyListInterceptor;
     private String mQuery;
     private int mCurrentPage;
+    private boolean mCached;
+    private boolean mLoadMore;
 
     @Inject
     VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor) {
@@ -25,34 +27,40 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
     }
 
     @Override
-    public void getVacancies() {
-        getVacancies(mQuery, false);
+    public void getVacancies(boolean cached) {
+        this.mCached = cached;
+        this.mCurrentPage = 0;
+        this.mLoadMore = false;
+        getVacanciesList();
     }
 
     @Override
     public void getVacancies(String query) {
         this.mQuery = query;
         this.mCurrentPage = 0;
-        getVacancies(mQuery, false);
+        this.mCached = false;
+        this.mLoadMore = false;
+        getVacanciesList();
     }
 
     @Override
-    public void getVacancies(String query, boolean loadMore) {
+    public void loadMore() {
+        this.mLoadMore = true;
+        this.mCached = false;
+        getVacanciesList();
+    }
+
+    private void getVacanciesList() {
         getView().showLoading();
-        if (!loadMore) {
-            mCurrentPage = 0;
-        }
-        mQuery = query;
         mVacancyListInterceptor.setQuery(mQuery);
         mVacancyListInterceptor.setPage(mCurrentPage);
+        mVacancyListInterceptor.setCached(mCached);
+        mVacancyListInterceptor.setLoadMore(mLoadMore);
         mVacancyListInterceptor.execute(new InteractorObserver<VacancyList>() {
             @Override
             public void onNext(VacancyList vacancyList) {
-                getView().getVacanciesDone(vacancyList, loadMore);
+                getView().getVacanciesDone(vacancyList, mLoadMore);
                 getView().hideLoading();
-                if (vacancyList.getItems().isEmpty() && !loadMore) {
-                    getView().showNoDataError();
-                }
             }
 
             @Override
