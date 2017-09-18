@@ -21,6 +21,11 @@ public class DetailVacancyPresenterImpl extends DetailVacancyPresenter {
     }
 
     @Override
+    public void onViewAttached() {
+
+    }
+
+    @Override
     public void getVacancyDetail(String id) {
         getView().showLoading();
         mVacancyDetailInteractor.setID(id);

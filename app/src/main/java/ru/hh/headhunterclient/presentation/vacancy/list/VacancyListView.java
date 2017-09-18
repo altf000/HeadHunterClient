@@ -1,6 +1,8 @@
 package ru.hh.headhunterclient.presentation.vacancy.list;
 
-import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
+import java.util.List;
+
+import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.presentation.base.MvpView;
 
 /**
@@ -9,6 +11,10 @@ import ru.hh.headhunterclient.presentation.base.MvpView;
 
 public interface VacancyListView extends MvpView {
 
-    void getVacanciesDone(VacancyList vacancyList, boolean loadMore);
+    void getVacanciesDone(List<Vacancy> vacancyList);
+
+    void setSubtitle(String subtitle);
+
+    void setQuery(String query);
 
 }

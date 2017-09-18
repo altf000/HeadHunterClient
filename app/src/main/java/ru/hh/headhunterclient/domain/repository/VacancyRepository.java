@@ -1,6 +1,7 @@
 package ru.hh.headhunterclient.domain.repository;
 
 import io.reactivex.Observable;
+import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
@@ -13,13 +14,10 @@ public interface VacancyRepository {
     /**
      * Получение списка вакансий
      *
-     * @param query    ключевые слова
-     * @param page     номер страницы
-     * @param cached   получать закешированные данные или нет
-     * @param loadMore используется ли "Загрузить еще"
+     * @param vacancySearch параметры поиска
      * @return список вакансий
      */
-    Observable<VacancyList> getVacancies(String query, int page, boolean cached, boolean loadMore);
+    Observable<VacancyList> getVacancies(VacancySearch vacancySearch);
 
     /**
      * Получение детализации вакансии

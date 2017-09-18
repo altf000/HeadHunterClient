@@ -10,6 +10,7 @@ public abstract class Presenter<V extends MvpView> {
 
     public void attachView(V view) {
         mView = view;
+        onViewAttached();
     }
 
     protected V getView() {
@@ -18,5 +19,7 @@ public abstract class Presenter<V extends MvpView> {
 
     public void detachView() {
     }
+
+    public abstract void onViewAttached();
 
 }

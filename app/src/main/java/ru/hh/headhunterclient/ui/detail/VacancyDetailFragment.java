@@ -59,7 +59,6 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-        mPresenter.attachView(this);
         mID = getArguments().getString(VacancyDetailActivity.EXTRA_ID);
     }
 
@@ -73,6 +72,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mPresenter.attachView(this);
         mPresenter.getVacancyDetail(mID);
     }
 
@@ -96,9 +96,6 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
 
     @Override
     public void showError(String error) {
-        if (mView == null) {
-            return;
-        }
         Snackbar.make(mView, error, Snackbar.LENGTH_LONG)
                 .setAction(R.string.try_again_snack_bar, v -> mPresenter.getVacancyDetail(mID))
                 .show();

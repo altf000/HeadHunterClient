@@ -8,6 +8,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.hh.headhunterclient.data.exception.ExceptionFactory;
+import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.domain.repository.VacancyRepository;
@@ -28,12 +29,12 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     @Override
-    public Observable<VacancyList> getVacancies(final String query, final int page, final boolean cached, final boolean loadMore) {
+    public Observable<VacancyList> getVacancies(VacancySearch vacancySearch) {
         return Observable.create((ObservableOnSubscribe<VacancyList>) e -> {
-            if (cached) {
+            if (vacancySearch.isCached()) {
                 // вакансии из бд
                 mVacancyLocalStorage
-                        .getVacancies(query, page)
+                        .getVacancies(vacancySearch.getQuery(), vacancySearch.getPage())
                         .subscribe(vacancyList -> {
                             if (!e.isDisposed()) {
                                 e.onNext(vacancyList);
@@ -46,15 +47,15 @@ public class VacancyRepositoryImpl implements VacancyRepository {
             } else {
                 // вакансии из сети
                 mVacancyCloudStorage
-                        .getVacancies(query, page)
-                        .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !loadMore))
+                        .getVacancies(vacancySearch.getQuery(), vacancySearch.getPage())
+                        .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !vacancySearch.isLoadMore()))
                         .subscribe(vacancyList -> {
                             if (!e.isDisposed()) {
                                 e.onNext(vacancyList);
                             }
                         }, throwable -> {
                             if (!e.isDisposed()) {
-                                getVacanciesFromLocalStorage(e, throwable, loadMore);
+                                getVacanciesFromLocalStorage(e, throwable, vacancySearch.isLoadMore());
                             }
                         });
             }

@@ -1,7 +1,16 @@
 package ru.hh.headhunterclient.presentation.vacancy.list;
 
+import com.f2prateek.rx.preferences2.Preference;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
+import ru.hh.headhunterclient.R;
+import ru.hh.headhunterclient.data.Keywords;
+import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
+import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.domain.interactor.base.InteractorObserver;
 import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyListInteractor;
@@ -15,51 +24,67 @@ import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
 public class VacancyListPresenterImpl extends VacancyListPresenter {
 
     private VacancyListInteractor mVacancyListInterceptor;
-    private String mQuery;
-    private int mCurrentPage;
-    private boolean mCached;
-    private boolean mLoadMore;
+    private Preference<String> mQueryPref;
+    private VacancySearch mVacancySearch;
+    private List<Vacancy> mVacancyList;
+    private int mAllItemsCount;
 
     @Inject
-    VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor) {
+    VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor, @Keywords Preference<String> queryPref) {
         this.mVacancyListInterceptor = vacancyListInteractor;
-        this.mQuery = "";
+        this.mQueryPref = queryPref;
+        this.mVacancySearch = new VacancySearch();
+        this.mVacancyList = new ArrayList<>();
+    }
+
+    @Override
+    public void onViewAttached() {
+        mVacancySearch.setQuery(mQueryPref.get());
+        getView().setQuery(mQueryPref.get());
     }
 
     @Override
     public void getVacancies(boolean cached) {
-        this.mCached = cached;
-        this.mCurrentPage = 0;
-        this.mLoadMore = false;
+        mVacancySearch.setCached(cached);
+        mVacancySearch.setPage(0);
+        mVacancySearch.setLoadMore(false);
         getVacanciesList();
     }
 
     @Override
-    public void getVacancies(String query) {
-        this.mQuery = query;
-        this.mCurrentPage = 0;
-        this.mCached = false;
-        this.mLoadMore = false;
+    public void searchVacancies(String query) {
+        mVacancySearch.setQuery(query);
+        mVacancySearch.setPage(0);
+        mVacancySearch.setCached(false);
+        mVacancySearch.setLoadMore(false);
+        mQueryPref.set(query);
         getVacanciesList();
     }
 
     @Override
     public void loadMore() {
-        this.mLoadMore = true;
-        this.mCached = false;
-        getVacanciesList();
+        if (mAllItemsCount > mVacancyList.size()) {
+            mVacancySearch.setLoadMore(true);
+            mVacancySearch.setCached(false);
+            getVacanciesList();
+        }
     }
 
     private void getVacanciesList() {
         getView().showLoading();
-        mVacancyListInterceptor.setQuery(mQuery);
-        mVacancyListInterceptor.setPage(mCurrentPage);
-        mVacancyListInterceptor.setCached(mCached);
-        mVacancyListInterceptor.setLoadMore(mLoadMore);
+        mVacancyListInterceptor.setVacancySearch(mVacancySearch);
         mVacancyListInterceptor.execute(new InteractorObserver<VacancyList>() {
             @Override
             public void onNext(VacancyList vacancyList) {
-                getView().getVacanciesDone(vacancyList, mLoadMore);
+                if (mVacancySearch.isLoadMore()) {
+                    mVacancyList.addAll(vacancyList.getItems());
+                } else {
+                    mVacancyList = vacancyList.getItems();
+                }
+                mAllItemsCount = vacancyList.getFound();
+                mVacancySearch.setPage(mVacancyList.size() / vacancyList.getPerPage());
+                getView().setSubtitle(String.format(getView().getContext().getString(R.string.vacancy_count), vacancyList.getFound()));
+                getView().getVacanciesDone(mVacancyList);
                 getView().hideLoading();
             }
 
@@ -80,14 +105,5 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
     private void showErrorMessage(Throwable throwable) {
         getView().hideLoading();
         getView().showError(ErrorMessageFactory.create(getView().getContext(), throwable));
-    }
-
-    public void setQuery(String query) {
-        this.mQuery = query;
-    }
-
-    @Override
-    public void setPage(int page) {
-        this.mCurrentPage = page;
     }
 }
