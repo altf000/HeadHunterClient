@@ -10,4 +10,4 @@
     android:text="@string/no_data_error"
     android:textSize="16sp"
     android:visibility="gone"
-    app:typeface="roboto_medium" />
+    app:robotoTypeface="roboto_medium" />

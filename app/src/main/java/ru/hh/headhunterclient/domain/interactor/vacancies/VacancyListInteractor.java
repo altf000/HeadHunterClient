@@ -12,22 +12,30 @@ import ru.hh.headhunterclient.domain.repository.VacancyRepository;
  * Created by neox on 12/9/17.
  */
 
-public class VacancyListInteractor extends Interactor<VacancyList> {
+public class VacancyListInteractor extends Interactor<VacancyList, VacancyListInteractor.Params> {
 
     private VacancyRepository mVacancyRepository;
-    private VacancySearch mVacancySearch;
 
     @Inject
-    public VacancyListInteractor(VacancyRepository vacancyRepository) {
+    VacancyListInteractor(VacancyRepository vacancyRepository) {
         this.mVacancyRepository = vacancyRepository;
     }
 
     @Override
-    protected Observable<VacancyList> createObservableInteractor() {
-        return mVacancyRepository.getVacancies(mVacancySearch);
+    protected Observable<VacancyList> createObservableInteractor(Params params) {
+        return mVacancyRepository.getVacancies(params.searchParams);
     }
 
-    public void setVacancySearch(VacancySearch mVacancySearch) {
-        this.mVacancySearch = mVacancySearch;
+    public static final class Params {
+
+        private final VacancySearch searchParams;
+
+        private Params(VacancySearch searchParams) {
+            this.searchParams = searchParams;
+        }
+
+        public static Params create(VacancySearch searchParams) {
+            return new Params(searchParams);
+        }
     }
 }

@@ -45,7 +45,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
 
     private VacancyDetail mVacancyDetail;
     private View mView;
-    private String mID;
+    private String mVacancyID;
 
     public static Fragment newInstance(String id) {
         Bundle bundle = new Bundle();
@@ -59,7 +59,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-        mID = getArguments().getString(VacancyDetailActivity.EXTRA_ID);
+        mVacancyID = getArguments().getString(VacancyDetailActivity.EXTRA_ID);
     }
 
     @Nullable
@@ -73,7 +73,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.attachView(this);
-        mPresenter.getVacancyDetail(mID);
+        mPresenter.getVacancyDetail(mVacancyID);
     }
 
     @Override
@@ -96,8 +96,8 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
 
     @Override
     public void showError(String error) {
-        Snackbar.make(mView, error, Snackbar.LENGTH_LONG)
-                .setAction(R.string.try_again_snack_bar, v -> mPresenter.getVacancyDetail(mID))
+        Snackbar.make(mView, error, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.try_again_snack_bar, v -> mPresenter.getVacancyDetail(mVacancyID))
                 .show();
     }
 
@@ -108,7 +108,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     }
 
     private void fillView() {
-        if (mVacancyDetail == null || mVacancyDetail.getName() == null) {
+        if (mVacancyDetail == null) {
             return;
         }
         mVacancyName.setText(mVacancyDetail.getName());
@@ -121,7 +121,7 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     }
 
     public void loadData(String id) {
-        mID = id;
-        mPresenter.getVacancyDetail(mID);
+        mVacancyID = id;
+        mPresenter.getVacancyDetail(mVacancyID);
     }
 }

@@ -2,7 +2,7 @@
     <string name="app_name">HeadHunterClient</string>
     <string name="no_connection_exception_error">Отсутствует соединение с сервером</string>
     <string name="default_exception_error">Ошибка получения данных</string>
-    <string name="json_parse_exception_error">Ошибка парсинга Json</string>
+    <string name="json_parse_exception_error">Ошибка парсинга json</string>
     <string name="timeout_error_exception_error">Время ожидания истекло</string>
     <string name="not_found_exception_error">Объект не найден</string>
     <string name="try_again_snack_bar">Попробовать еще</string>

@@ -34,22 +34,17 @@ public class VacancyDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
-
         String id = getIntent().getStringExtra(EXTRA_ID);
-
         setCustomContentView(R.layout.activity_base);
         initToolbar(mToolbar);
         setTitle(getString(R.string.detailing));
         setBackEnabled();
-
         if (mCommonUtils.isLarge()) {
             finish();
             return;
         }
-
         Fragment fragment = getCurrentFragment(R.id.container);
         if (fragment == null) {
             fragment = VacancyDetailFragment.newInstance(id);

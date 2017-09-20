@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
-                app:typeface="roboto_medium" />
+                app:robotoTypeface="roboto_medium" />
 
             <com.devspark.robototextview.widget.RobotoTextView
                 android:id="@+id/vacancyDetailDesc"
@@ -31,7 +31,7 @@
                 android:layout_marginTop="@dimen/default_padding"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:typeface="roboto_regular" />
+                app:robotoTypeface="roboto_regular" />
 
         </LinearLayout>
 

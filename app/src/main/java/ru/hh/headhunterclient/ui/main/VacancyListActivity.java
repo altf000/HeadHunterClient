@@ -24,24 +24,26 @@ public class VacancyListActivity extends BaseActivity {
     @Inject
     CommonUtils mCommonUtils;
 
-    private String mID;
+    private String mVacancyID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getApplicationContext();
+        getBaseContext();
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
         setCustomContentView(mCommonUtils.isLarge() ? R.layout.activity_base_tablet : R.layout.activity_base);
         initToolbar(mToolbar);
         setTitle(getString(R.string.app_name));
-        if (!mCommonUtils.isLarge()) {
-            removeDetailsFragment();
+        if (!mCommonUtils.isLarge() && savedInstanceState != null) {
+            Fragment detailsFragment = getDetailsFragment();
+            if (detailsFragment != null) {
+                removeFragment(getDetailsFragment());
+            }
         }
-        VacancyListFragment listFragment = (VacancyListFragment) getCurrentFragment(R.id.container);
-        if (listFragment == null) {
-            listFragment = VacancyListFragment.newInstance();
-        }
+        VacancyListFragment listFragment = getListFragment();
         listFragment.setListener(id -> {
-            mID = id;
+            mVacancyID = id;
             if (mCommonUtils.isLarge()) {
                 changeDetailsFragment();
             } else {
@@ -50,44 +52,45 @@ public class VacancyListActivity extends BaseActivity {
         });
         changeFragment(listFragment, R.id.container);
         if (savedInstanceState != null && savedInstanceState.get(VACANCY_ID) != null) {
-            mID = savedInstanceState.getString(VACANCY_ID);
+            mVacancyID = savedInstanceState.getString(VACANCY_ID);
         }
         if (mCommonUtils.isLarge()) {
             changeDetailsFragment();
         }
     }
 
-    private void removeDetailsFragment() {
-        Fragment detailsFragment = getDetailsFragment();
-        if (detailsFragment != null) {
-            removeFragment(getDetailsFragment());
+    private VacancyListFragment getListFragment() {
+        VacancyListFragment listFragment = (VacancyListFragment) getCurrentFragment(R.id.container);
+        if (listFragment == null) {
+            listFragment = VacancyListFragment.newInstance();
         }
-    }
-
-    private void changeDetailsFragment() {
-        if (mID == null) {
-            return;
-        }
-        VacancyDetailFragment vacancyDetailFragment = getDetailsFragment();
-        if (vacancyDetailFragment == null) {
-            vacancyDetailFragment = (VacancyDetailFragment) VacancyDetailFragment.newInstance(mID);
-            changeFragment(vacancyDetailFragment, R.id.details_container);
-        } else {
-            vacancyDetailFragment.loadData(mID);
-        }
+        return listFragment;
     }
 
     private VacancyDetailFragment getDetailsFragment() {
         return (VacancyDetailFragment) getCurrentFragment(R.id.details_container);
     }
 
+    private void changeDetailsFragment() {
+        if (mVacancyID == null) {
+            return;
+        }
+        VacancyDetailFragment vacancyDetailFragment = getDetailsFragment();
+        if (vacancyDetailFragment == null) {
+            vacancyDetailFragment = (VacancyDetailFragment) VacancyDetailFragment.newInstance(mVacancyID);
+            changeFragment(vacancyDetailFragment, R.id.details_container);
+        } else {
+            vacancyDetailFragment.loadData(mVacancyID);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(VACANCY_ID, mID);
+        outState.putString(VACANCY_ID, mVacancyID);
     }
 
-    public interface OnItemSelectedListener {
+    interface OnItemSelectedListener {
         void onItemSelected(String id);
     }
 }

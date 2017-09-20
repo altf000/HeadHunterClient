@@ -10,11 +10,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by neox on 12/9/17.
  */
 
-public abstract class Interactor<T> {
+public abstract class Interactor<T, Params> {
 
     private CompositeDisposable mCompositeDisposable;
 
-    public void execute(InteractorObserver<T> interactorObserver) {
+    public void execute(InteractorObserver<T> interactorObserver, Params params) {
         if (interactorObserver == null) {
             throw new IllegalArgumentException("disposableObserver must not be null");
         }
@@ -22,7 +22,7 @@ public abstract class Interactor<T> {
             mCompositeDisposable = new CompositeDisposable();
         }
         final Observable<T> observable = this
-                .createObservableInteractor()
+                .createObservableInteractor(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread(), true);
         DisposableObserver observer = observable.subscribeWith(interactorObserver);
@@ -35,6 +35,6 @@ public abstract class Interactor<T> {
         }
     }
 
-    protected abstract Observable<T> createObservableInteractor();
+    protected abstract Observable<T> createObservableInteractor(Params params);
 
 }

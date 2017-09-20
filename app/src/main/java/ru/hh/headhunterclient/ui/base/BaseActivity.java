@@ -23,12 +23,12 @@ public class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     protected Toolbar mToolbar;
 
-    private Unbinder mUnbinder;
+    private Unbinder mUnBinder;
 
     protected void setCustomContentView(@LayoutRes int resId) {
         ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
         getLayoutInflater().inflate(resId, container);
-        mUnbinder = ButterKnife.bind(this, container);
+        mUnBinder = ButterKnife.bind(this, container);
     }
 
     public void initToolbar(Toolbar toolbar) {
@@ -103,6 +103,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mUnbinder.unbind();
+        mUnBinder.unbind();
     }
 }

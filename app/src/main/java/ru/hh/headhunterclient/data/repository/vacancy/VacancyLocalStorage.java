@@ -48,19 +48,17 @@ public class VacancyLocalStorage implements VacancyStore {
     @Override
     public void saveVacancyList(VacancyList vacancyList, boolean clear) {
         Realm realm = Realm.getDefaultInstance();
-        if (clear) {
-            realm.beginTransaction();
-            realm.delete(VacancyList.class);
-            realm.insertOrUpdate(vacancyList);
-            realm.commitTransaction();
-        } else {
-            realm.beginTransaction();
-            VacancyList realmList = realm.copyFromRealm(realm.where(VacancyList.class).findFirst());
-            realmList.getItems().addAll(vacancyList.getItems());
-            realm.delete(VacancyList.class);
-            realm.insertOrUpdate(realmList);
-            realm.commitTransaction();
-        }
+        realm.executeTransaction(realm1 -> {
+            if (clear) {
+                realm1.delete(VacancyList.class);
+                realm1.insertOrUpdate(vacancyList);
+            } else {
+                VacancyList realmList = realm1.copyFromRealm(realm1.where(VacancyList.class).findFirst());
+                realmList.getItems().addAll(vacancyList.getItems());
+                realm1.delete(VacancyList.class);
+                realm1.insertOrUpdate(realmList);
+            }
+        });
         realm.close();
     }
 

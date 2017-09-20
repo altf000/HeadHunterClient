@@ -14,19 +14,19 @@ import butterknife.Unbinder;
 
 public class BaseFragment extends Fragment {
 
-    private Unbinder mUnbinder;
+    private Unbinder mUnBinder;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        mUnbinder = ButterKnife.bind(this, view);
+        mUnBinder = ButterKnife.bind(this, view);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnbinder.unbind();
+        mUnBinder.unbind();
     }
 
     public void setSubtitle(String text) {

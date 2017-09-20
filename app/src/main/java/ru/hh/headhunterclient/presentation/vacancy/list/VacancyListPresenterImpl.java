@@ -14,6 +14,7 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.domain.interactor.base.InteractorObserver;
 import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyListInteractor;
+import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyListInteractor.Params;
 import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
 
 /**
@@ -72,27 +73,7 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
 
     private void getVacanciesList() {
         getView().showLoading();
-        mVacancyListInterceptor.setVacancySearch(mVacancySearch);
-        mVacancyListInterceptor.execute(new InteractorObserver<VacancyList>() {
-            @Override
-            public void onNext(VacancyList vacancyList) {
-                if (mVacancySearch.isLoadMore()) {
-                    mVacancyList.addAll(vacancyList.getItems());
-                } else {
-                    mVacancyList = vacancyList.getItems();
-                }
-                mAllItemsCount = vacancyList.getFound();
-                mVacancySearch.setPage(mVacancyList.size() / vacancyList.getPerPage());
-                getView().setSubtitle(String.format(getView().getContext().getString(R.string.vacancy_count), vacancyList.getFound()));
-                getView().getVacanciesDone(mVacancyList);
-                getView().hideLoading();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showErrorMessage(e);
-            }
-        });
+        mVacancyListInterceptor.execute(new VacancyListObserver(), Params.create(mVacancySearch));
     }
 
     @Override
@@ -105,5 +86,27 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
     private void showErrorMessage(Throwable throwable) {
         getView().hideLoading();
         getView().showError(ErrorMessageFactory.create(getView().getContext(), throwable));
+    }
+
+    private final class VacancyListObserver extends InteractorObserver<VacancyList> {
+
+        @Override
+        public void onNext(VacancyList vacancyList) {
+            if (mVacancySearch.isLoadMore()) {
+                mVacancyList.addAll(vacancyList.getItems());
+            } else {
+                mVacancyList = vacancyList.getItems();
+            }
+            mAllItemsCount = vacancyList.getFound();
+            mVacancySearch.setPage(mVacancyList.size() / vacancyList.getPerPage());
+            getView().setSubtitle(String.format(getView().getContext().getString(R.string.vacancy_count), vacancyList.getFound()));
+            getView().getVacanciesDone(mVacancyList);
+            getView().hideLoading();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showErrorMessage(e);
+        }
     }
 }
