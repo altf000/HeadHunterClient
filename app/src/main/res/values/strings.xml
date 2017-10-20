@@ -24,4 +24,5 @@
     <string name="keywords_hint">Должность, ключевые слова</string>
     <string name="salary_hint">Желаемая зарплата</string>
     <string name="region_hint">Регион (город или страна)</string>
+    <string name="regionn_not_found">Регион не найден</string>
 </resources>

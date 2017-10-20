@@ -62,12 +62,14 @@
 
         <Button
             android:id="@+id/searchVacancyButton"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_button_height"
             android:layout_marginTop="@dimen/default_padding"
-            android:textColor="@android:color/white"
-            android:background="#3988dc"
-            android:text="@string/accept" />
+            android:background="@drawable/selector_search_button"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 

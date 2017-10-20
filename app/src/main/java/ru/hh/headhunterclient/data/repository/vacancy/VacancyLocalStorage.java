@@ -20,7 +20,7 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 public class VacancyLocalStorage implements VacancyStore {
 
     @Inject
-    public VacancyLocalStorage() {
+    VacancyLocalStorage() {
 
     }
 
