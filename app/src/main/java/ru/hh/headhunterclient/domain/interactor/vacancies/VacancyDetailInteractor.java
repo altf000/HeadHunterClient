@@ -9,15 +9,15 @@ import ru.hh.headhunterclient.domain.repository.VacancyRepository;
 
 /**
  * Created by neox on 12.09.17.
+ * Детализация вакансии
  */
-
 public class VacancyDetailInteractor extends Interactor<VacancyDetail, VacancyDetailInteractor.Params> {
 
     private VacancyRepository mVacancyRepository;
 
     @Inject
-    VacancyDetailInteractor(VacancyRepository mVacancyRepository) {
-        this.mVacancyRepository = mVacancyRepository;
+    VacancyDetailInteractor(VacancyRepository vacancyRepository) {
+        this.mVacancyRepository = vacancyRepository;
     }
 
     @Override

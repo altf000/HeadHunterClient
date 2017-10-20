@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Area;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Employer;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Relations;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Salary;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Snippet;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Type;
+import ru.hh.headhunterclient.domain.entity.base.IdNameRealm;
+import ru.hh.headhunterclient.domain.entity.vacancies.address.VacancyAddress;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyArea;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyEmployer;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyRelations;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancySalary;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancySnippet;
 
 public class Vacancy extends RealmObject {
 
@@ -38,10 +38,10 @@ public class Vacancy extends RealmObject {
     private String id;
 
     @SerializedName(SALARY)
-    private Salary salary;
+    private VacancySalary salary;
 
     @SerializedName(SNIPPET)
-    private Snippet snippet;
+    private VacancySnippet snippet;
 
     @SerializedName(ARCHIVED)
     private Boolean archived;
@@ -53,7 +53,7 @@ public class Vacancy extends RealmObject {
     private String name;
 
     @SerializedName(AREA)
-    private Area area;
+    private VacancyArea area;
 
     @SerializedName(URL)
     private String url;
@@ -68,10 +68,10 @@ public class Vacancy extends RealmObject {
     private String applyAlternateUrl;
 
     @SerializedName(RELATIONS)
-    private RealmList<Relations> relations;
+    private RealmList<VacancyRelations> relations;
 
     @SerializedName(EMPLOYER)
-    private Employer employer;
+    private VacancyEmployer employer;
 
     @SerializedName(RESPONSE_LETTER_REQUIRED)
     private Boolean responseLetterRequired;
@@ -80,165 +80,148 @@ public class Vacancy extends RealmObject {
     private String published_at;
 
     @SerializedName(TYPE)
-    private Type type;
+    private IdNameRealm type;
 
     @SerializedName(ADDRESS)
-    private Address address;
+    private VacancyAddress address;
 
     public Vacancy() {
     }
 
-    public Salary getSalary() {
-        return this.salary;
+    public String getId() {
+        return id;
     }
 
-    public Vacancy setSalary(Salary salary) {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public VacancySalary getSalary() {
+        return salary;
+    }
+
+    public void setSalary(VacancySalary salary) {
         this.salary = salary;
-        return this;
     }
 
-    public Snippet getSnippet() {
-        return this.snippet;
+    public VacancySnippet getSnippet() {
+        return snippet;
     }
 
-    public Vacancy setSnippet(Snippet snippet) {
+    public void setSnippet(VacancySnippet snippet) {
         this.snippet = snippet;
-        return this;
     }
 
     public Boolean getArchived() {
-        return this.archived;
+        return archived;
     }
 
-    public Vacancy setArchived(Boolean archived) {
+    public void setArchived(Boolean archived) {
         this.archived = archived;
-        return this;
     }
 
     public Boolean getPremium() {
-        return this.premium;
+        return premium;
     }
 
-    public Vacancy setPremium(Boolean premium) {
+    public void setPremium(Boolean premium) {
         this.premium = premium;
-        return this;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public Vacancy setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
-    public Area getArea() {
-        return this.area;
+    public VacancyArea getArea() {
+        return area;
     }
 
-    public Vacancy setArea(Area area) {
+    public void setArea(VacancyArea area) {
         this.area = area;
-        return this;
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
     }
 
-    public Vacancy setUrl(String url) {
+    public void setUrl(String url) {
         this.url = url;
-        return this;
     }
 
     public String getCreatedAt() {
-        return this.createdAt;
+        return createdAt;
     }
 
-    public Vacancy setCreatedAt(String createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-        return this;
     }
 
     public String getAlternateUrl() {
-        return this.alternateUrl;
+        return alternateUrl;
     }
 
-    public Vacancy setAlternateUrl(String alternateUrl) {
+    public void setAlternateUrl(String alternateUrl) {
         this.alternateUrl = alternateUrl;
-        return this;
     }
 
     public String getApplyAlternateUrl() {
-        return this.applyAlternateUrl;
+        return applyAlternateUrl;
     }
 
-    public Vacancy setApplyAlternateUrl(String applyAlternateUrl) {
+    public void setApplyAlternateUrl(String applyAlternateUrl) {
         this.applyAlternateUrl = applyAlternateUrl;
-        return this;
     }
 
-    public RealmList<Relations> getRelations() {
-        return this.relations;
+    public RealmList<VacancyRelations> getRelations() {
+        return relations;
     }
 
-    public Vacancy setRelations(RealmList<Relations> relations) {
+    public void setRelations(RealmList<VacancyRelations> relations) {
         this.relations = relations;
-        return this;
     }
 
-    public Employer getEmployer() {
-        return this.employer;
+    public VacancyEmployer getEmployer() {
+        return employer;
     }
 
-    public Vacancy setEmployer(Employer employer) {
+    public void setEmployer(VacancyEmployer employer) {
         this.employer = employer;
-        return this;
     }
 
     public Boolean getResponseLetterRequired() {
-        return this.responseLetterRequired;
+        return responseLetterRequired;
     }
 
-    public Vacancy setResponseLetterRequired(Boolean responseLetterRequired) {
+    public void setResponseLetterRequired(Boolean responseLetterRequired) {
         this.responseLetterRequired = responseLetterRequired;
-        return this;
     }
 
     public String getPublished_at() {
-        return this.published_at;
+        return published_at;
     }
 
-    public Vacancy setPublished_at(String published_at) {
+    public void setPublished_at(String published_at) {
         this.published_at = published_at;
-        return this;
     }
 
-    public Type getType() {
-        return this.type;
+    public IdNameRealm getType() {
+        return type;
     }
 
-    public Vacancy setType(Type type) {
+    public void setType(IdNameRealm type) {
         this.type = type;
-        return this;
     }
 
-    public String getId() {
-        return this.id;
+    public VacancyAddress getAddress() {
+        return address;
     }
 
-    public Vacancy setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public Address getAddress() {
-        return this.address;
-    }
-
-    public Vacancy setAddress(Address address) {
+    public void setAddress(VacancyAddress address) {
         this.address = address;
-        return this;
     }
 }
 

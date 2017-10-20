@@ -4,6 +4,9 @@ import android.app.Application;
 
 import io.realm.Realm;
 import ru.hh.headhunterclient.BuildConfig;
+import ru.hh.headhunterclient.di.component.AppComponent;
+import ru.hh.headhunterclient.di.component.DaggerAppComponent;
+import ru.hh.headhunterclient.di.module.AppModule;
 import timber.log.Timber;
 
 /**

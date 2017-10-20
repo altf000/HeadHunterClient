@@ -5,20 +5,15 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import ru.hh.headhunterclient.domain.entity.vacancies.address.Address;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Area;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.BillingType;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Department;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Employer;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Employment;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Experience;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.KeySkills;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Salary;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Schedule;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Specializations;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Test;
-import ru.hh.headhunterclient.domain.entity.vacancies.common.Type;
-import ru.hh.headhunterclient.domain.entity.vacancies.contacts.Contacts;
+import ru.hh.headhunterclient.domain.entity.base.IdNameRealm;
+import ru.hh.headhunterclient.domain.entity.vacancies.address.VacancyAddress;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyArea;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyEmployer;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyKeySkills;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancySalary;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancySpecializations;
+import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancyTest;
+import ru.hh.headhunterclient.domain.entity.vacancies.contacts.VacancyContacts;
 
 public class VacancyDetail extends RealmObject {
 
@@ -61,19 +56,19 @@ public class VacancyDetail extends RealmObject {
     private String brandedDescription;
 
     @SerializedName(KEY_SKILLS)
-    private RealmList<KeySkills> keySkills;
+    private RealmList<VacancyKeySkills> keySkills;
 
     @SerializedName(SCHEDULE)
-    private Schedule schedule;
+    private IdNameRealm schedule;
 
     @SerializedName(ACCEPT_HANDICAPPED)
     private boolean acceptHandicapped;
 
     @SerializedName(EXPERIENCE)
-    private Experience experience;
+    private IdNameRealm experience;
 
     @SerializedName(ADDRESS)
-    private Address address;
+    private VacancyAddress address;
 
     @SerializedName(ALTERNATE_URL)
     private String alternateUrl;
@@ -85,13 +80,13 @@ public class VacancyDetail extends RealmObject {
     private String code;
 
     @SerializedName(DEPARTMENT)
-    private Department department;
+    private IdNameRealm department;
 
     @SerializedName(EMPLOYMENT)
-    private Employment employment;
+    private IdNameRealm employment;
 
     @SerializedName(SALARY)
-    private Salary salary;
+    private VacancySalary salary;
 
     @SerializedName(ARCHIVED)
     private boolean archived;
@@ -100,31 +95,31 @@ public class VacancyDetail extends RealmObject {
     private String name;
 
     @SerializedName(AREA)
-    private Area area;
+    private VacancyArea area;
 
     @SerializedName(PUBLISHED_AT)
     private String publishedAt;
 
     @SerializedName(EMPLOYER)
-    private Employer employer;
+    private VacancyEmployer employer;
 
     @SerializedName(RESPONSE_LETTER_REQUIRED)
     private boolean responseLetterRequired;
 
     @SerializedName(TYPE)
-    private Type type;
+    private IdNameRealm type;
 
     @SerializedName(TEST)
-    private Test test;
+    private VacancyTest test;
 
     @SerializedName(SPECIALIZATIONS)
-    private RealmList<Specializations> specializations;
+    private RealmList<VacancySpecializations> specializations;
 
     @SerializedName(CONTACTS)
-    private Contacts contacts;
+    private VacancyContacts contacts;
 
     @SerializedName(BILLING_TYPE)
-    private BillingType billingType;
+    private IdNameRealm billingType;
 
     @SerializedName(ALLOW_MESSAGES)
     private boolean allowMessages;
@@ -136,246 +131,218 @@ public class VacancyDetail extends RealmObject {
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
 
-    public VacancyDetail setId(String id) {
+    public void setId(String id) {
         this.id = id;
-        return this;
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
-    public VacancyDetail setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
-        return this;
     }
 
     public String getBrandedDescription() {
-        return this.brandedDescription;
+        return brandedDescription;
     }
 
-    public VacancyDetail setBrandedDescription(String brandedDescription) {
+    public void setBrandedDescription(String brandedDescription) {
         this.brandedDescription = brandedDescription;
-        return this;
     }
 
-    public RealmList<KeySkills> getKeySkills() {
-        return this.keySkills;
+    public RealmList<VacancyKeySkills> getKeySkills() {
+        return keySkills;
     }
 
-    public VacancyDetail setKeySkills(RealmList<KeySkills> keySkills) {
+    public void setKeySkills(RealmList<VacancyKeySkills> keySkills) {
         this.keySkills = keySkills;
-        return this;
     }
 
-    public Schedule getSchedule() {
-        return this.schedule;
+    public IdNameRealm getSchedule() {
+        return schedule;
     }
 
-    public VacancyDetail setSchedule(Schedule schedule) {
+    public void setSchedule(IdNameRealm schedule) {
         this.schedule = schedule;
-        return this;
     }
 
-    public boolean getAcceptHandicapped() {
-        return this.acceptHandicapped;
+    public boolean isAcceptHandicapped() {
+        return acceptHandicapped;
     }
 
-    public VacancyDetail setAcceptHandicapped(boolean acceptHandicapped) {
+    public void setAcceptHandicapped(boolean acceptHandicapped) {
         this.acceptHandicapped = acceptHandicapped;
-        return this;
     }
 
-    public Experience getExperience() {
-        return this.experience;
+    public IdNameRealm getExperience() {
+        return experience;
     }
 
-    public VacancyDetail setExperience(Experience experience) {
+    public void setExperience(IdNameRealm experience) {
         this.experience = experience;
-        return this;
     }
 
-    public Address getAddress() {
-        return this.address;
+    public VacancyAddress getAddress() {
+        return address;
     }
 
-    public VacancyDetail setAddress(Address address) {
+    public void setAddress(VacancyAddress address) {
         this.address = address;
-        return this;
     }
 
     public String getAlternateUrl() {
-        return this.alternateUrl;
+        return alternateUrl;
     }
 
-    public VacancyDetail setAlternateUrl(String alternateUrl) {
+    public void setAlternateUrl(String alternateUrl) {
         this.alternateUrl = alternateUrl;
-        return this;
     }
 
     public String getApplyAlternateUrl() {
-        return this.applyAlternateUrl;
+        return applyAlternateUrl;
     }
 
-    public VacancyDetail setApplyAlternateUrl(String applyAlternateUrl) {
+    public void setApplyAlternateUrl(String applyAlternateUrl) {
         this.applyAlternateUrl = applyAlternateUrl;
-        return this;
     }
 
     public String getCode() {
-        return this.code;
+        return code;
     }
 
-    public VacancyDetail setCode(String code) {
+    public void setCode(String code) {
         this.code = code;
-        return this;
     }
 
-    public Department getDepartment() {
-        return this.department;
+    public IdNameRealm getDepartment() {
+        return department;
     }
 
-    public VacancyDetail setDepartment(Department department) {
+    public void setDepartment(IdNameRealm department) {
         this.department = department;
-        return this;
     }
 
-    public Employment getEmployment() {
-        return this.employment;
+    public IdNameRealm getEmployment() {
+        return employment;
     }
 
-    public VacancyDetail setEmployment(Employment employment) {
+    public void setEmployment(IdNameRealm employment) {
         this.employment = employment;
-        return this;
     }
 
-    public Salary getSalary() {
-        return this.salary;
+    public VacancySalary getSalary() {
+        return salary;
     }
 
-    public VacancyDetail setSalary(Salary salary) {
+    public void setSalary(VacancySalary salary) {
         this.salary = salary;
-        return this;
     }
 
-    public boolean getArchived() {
-        return this.archived;
+    public boolean isArchived() {
+        return archived;
     }
 
-    public VacancyDetail setArchived(boolean archived) {
+    public void setArchived(boolean archived) {
         this.archived = archived;
-        return this;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    public VacancyDetail setName(String name) {
+    public void setName(String name) {
         this.name = name;
-        return this;
     }
 
-    public Area getArea() {
-        return this.area;
+    public VacancyArea getArea() {
+        return area;
     }
 
-    public VacancyDetail setArea(Area area) {
+    public void setArea(VacancyArea area) {
         this.area = area;
-        return this;
     }
 
     public String getPublishedAt() {
-        return this.publishedAt;
+        return publishedAt;
     }
 
-    public VacancyDetail setPublishedAt(String publishedAt) {
+    public void setPublishedAt(String publishedAt) {
         this.publishedAt = publishedAt;
-        return this;
     }
 
-    public Employer getEmployer() {
-        return this.employer;
+    public VacancyEmployer getEmployer() {
+        return employer;
     }
 
-    public VacancyDetail setEmployer(Employer employer) {
+    public void setEmployer(VacancyEmployer employer) {
         this.employer = employer;
-        return this;
     }
 
-    public boolean getResponseLetterRequired() {
-        return this.responseLetterRequired;
+    public boolean isResponseLetterRequired() {
+        return responseLetterRequired;
     }
 
-    public VacancyDetail setResponseLetterRequired(boolean responseLetterRequired) {
+    public void setResponseLetterRequired(boolean responseLetterRequired) {
         this.responseLetterRequired = responseLetterRequired;
-        return this;
     }
 
-    public Type getType() {
-        return this.type;
+    public IdNameRealm getType() {
+        return type;
     }
 
-    public VacancyDetail setType(Type type) {
+    public void setType(IdNameRealm type) {
         this.type = type;
-        return this;
     }
 
-    public Test getTest() {
-        return this.test;
+    public VacancyTest getTest() {
+        return test;
     }
 
-    public VacancyDetail setTest(Test test) {
+    public void setTest(VacancyTest test) {
         this.test = test;
-        return this;
     }
 
-    public RealmList<Specializations> getSpecializations() {
-        return this.specializations;
+    public RealmList<VacancySpecializations> getSpecializations() {
+        return specializations;
     }
 
-    public VacancyDetail setSpecializations(RealmList<Specializations> specializations) {
+    public void setSpecializations(RealmList<VacancySpecializations> specializations) {
         this.specializations = specializations;
-        return this;
     }
 
-    public Contacts getContacts() {
-        return this.contacts;
+    public VacancyContacts getContacts() {
+        return contacts;
     }
 
-    public VacancyDetail setContacts(Contacts contacts) {
+    public void setContacts(VacancyContacts contacts) {
         this.contacts = contacts;
-        return this;
     }
 
-    public BillingType getBillingType() {
-        return this.billingType;
+    public IdNameRealm getBillingType() {
+        return billingType;
     }
 
-    public VacancyDetail setBillingType(BillingType billingType) {
+    public void setBillingType(IdNameRealm billingType) {
         this.billingType = billingType;
-        return this;
     }
 
-    public boolean getAllowMessages() {
-        return this.allowMessages;
+    public boolean isAllowMessages() {
+        return allowMessages;
     }
 
-    public VacancyDetail setAllowMessages(boolean allowMessages) {
+    public void setAllowMessages(boolean allowMessages) {
         this.allowMessages = allowMessages;
-        return this;
     }
 
-    public boolean getPremium() {
-        return this.premium;
+    public boolean isPremium() {
+        return premium;
     }
 
-    public VacancyDetail setPremium(boolean premium) {
+    public void setPremium(boolean premium) {
         this.premium = premium;
-        return this;
     }
-
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottomSheetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/activityBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_view_padding"
+            android:theme="@style/TextInputLayout">
+
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/vacancyArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/region_hint"
+                android:maxLines="1"
+                android:textSize="@dimen/edit_text_text_size" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_padding"
+                android:layout_weight="0.6"
+                android:paddingRight="@dimen/default_view_padding"
+                android:theme="@style/TextInputLayout">
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/vacancySalary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/salary_hint"
+                    android:maxLines="1"
+                    android:textSize="@dimen/edit_text_text_size" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/salarySpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="0.4" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/searchVacancyButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_button_height"
+            android:layout_marginTop="@dimen/default_padding"
+            android:textColor="@android:color/white"
+            android:background="#3988dc"
+            android:text="@string/accept" />
+
+    </LinearLayout>
+
+</RelativeLayout>

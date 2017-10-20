@@ -16,21 +16,22 @@
             android:id="@+id/vacancyTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="16dp"
-            android:hint="@string/keywords"
+            android:layout_marginBottom="@dimen/default_view_padding"
+            android:layout_marginLeft="@dimen/default_view_padding"
+            android:layout_marginRight="@dimen/default_view_padding"
+            android:layout_marginTop="@dimen/default_padding"
+            android:hint="@string/keywords_hint"
+            android:theme="@style/TextInputLayout"
             app:hintEnabled="true">
 
-            <android.support.v7.widget.AppCompatEditText
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/vacancyEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textSize="16sp" />
+                android:textSize="@dimen/edit_text_text_size" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -49,6 +50,16 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/no_data_tv" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/default_padding"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_filter_list_white_24dp" />
+
+    <include layout="@layout/wigdet_no_data" />
 
 </RelativeLayout>

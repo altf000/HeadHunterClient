@@ -36,57 +36,51 @@ public class VacancyList extends RealmObject {
     }
 
     public RealmList<Vacancy> getItems() {
-        return this.items;
+        return items;
     }
 
-    public VacancyList setItems(RealmList<Vacancy> items) {
+    public void setItems(RealmList<Vacancy> items) {
         this.items = items;
-        return this;
     }
 
     public Integer getPages() {
-        return this.pages;
+        return pages;
     }
 
-    public VacancyList setPages(Integer pages) {
+    public void setPages(Integer pages) {
         this.pages = pages;
-        return this;
     }
 
     public Integer getFound() {
-        return this.found;
+        return found;
     }
 
-    public VacancyList setFound(Integer found) {
+    public void setFound(Integer found) {
         this.found = found;
-        return this;
     }
 
     public String getAlternateUrl() {
-        return this.alternateUrl;
+        return alternateUrl;
     }
 
-    public VacancyList setAlternateUrl(String alternateUrl) {
+    public void setAlternateUrl(String alternateUrl) {
         this.alternateUrl = alternateUrl;
-        return this;
     }
 
     public Integer getPerPage() {
-        return this.perPage;
+        return perPage;
     }
 
-    public VacancyList setPerPage(Integer perPage) {
+    public void setPerPage(Integer perPage) {
         this.perPage = perPage;
-        return this;
     }
 
-    public int getPage() {
-        return this.page;
+    public Integer getPage() {
+        return page;
     }
 
-    public VacancyList setPage(Integer page) {
+    public void setPage(Integer page) {
         this.page = page;
-        return this;
     }
 }
 

@@ -1,5 +1,10 @@
 package ru.hh.headhunterclient.data.repository.vacancy;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -8,7 +13,8 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.hh.headhunterclient.data.exception.ExceptionFactory;
-import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
+import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.domain.entity.vacancies.keywords.KeywordItem;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.domain.repository.VacancyRepository;
@@ -21,6 +27,7 @@ public class VacancyRepositoryImpl implements VacancyRepository {
 
     private VacancyCloudStorage mVacancyCloudStorage;
     private VacancyLocalStorage mVacancyLocalStorage;
+    private VacancyFilter mVacancyFilter;
 
     @Inject
     VacancyRepositoryImpl(VacancyCloudStorage vacancyCloudStorage, VacancyLocalStorage vacancyLocalStorage) {
@@ -29,12 +36,13 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     @Override
-    public Observable<VacancyList> getVacancies(VacancySearch vacancySearch) {
+    public Observable<VacancyList> getVacancies(VacancyFilter vacancyFilter) {
+        mVacancyFilter = vacancyFilter;
         return Observable.create((ObservableOnSubscribe<VacancyList>) e -> {
-            if (vacancySearch.isCached()) {
+            if (mVacancyFilter.isCached()) {
                 // вакансии из бд
                 mVacancyLocalStorage
-                        .getVacancies(vacancySearch.getQuery(), vacancySearch.getPage())
+                        .getVacancies(mVacancyFilter.toGetParams())
                         .subscribe(vacancyList -> {
                             if (!e.isDisposed()) {
                                 e.onNext(vacancyList);
@@ -47,15 +55,16 @@ public class VacancyRepositoryImpl implements VacancyRepository {
             } else {
                 // вакансии из сети
                 mVacancyCloudStorage
-                        .getVacancies(vacancySearch.getQuery(), vacancySearch.getPage())
-                        .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !vacancySearch.isLoadMore()))
+                        .getVacancies(mVacancyFilter.toGetParams())
+                        .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !mVacancyFilter.isLoadMore()))
                         .subscribe(vacancyList -> {
                             if (!e.isDisposed()) {
+                                mVacancyFilter.setPage(vacancyList.getPage() + 1);
                                 e.onNext(vacancyList);
                             }
                         }, throwable -> {
                             if (!e.isDisposed()) {
-                                getVacanciesFromLocalStorage(e, throwable, vacancySearch.isLoadMore());
+                                getVacanciesFromLocalStorage(e, throwable);
                             }
                         });
             }
@@ -64,13 +73,13 @@ public class VacancyRepositoryImpl implements VacancyRepository {
                 .observeOn(AndroidSchedulers.mainThread(), true);
     }
 
-    private void getVacanciesFromLocalStorage(ObservableEmitter<VacancyList> e, Throwable t, boolean loadMore) {
+    private void getVacanciesFromLocalStorage(ObservableEmitter<VacancyList> e, Throwable t) {
         // вакансии из бд в случае ошибки получения данны из сети
         mVacancyLocalStorage
-                .getVacancies(null, 0)
+                .getVacancies(mVacancyFilter.toGetParams())
                 .subscribe(vacancyList -> {
                     if (!e.isDisposed()) {
-                        if (!loadMore) {
+                        if (!mVacancyFilter.isLoadMore()) {
                             e.onNext(vacancyList);
                         }
                         e.onError(ExceptionFactory.getException(t));
@@ -94,6 +103,26 @@ public class VacancyRepositoryImpl implements VacancyRepository {
                 }, throwable -> {
                     if (!e.isDisposed()) {
                         getVacancyDetailFromLocalStorage(e, throwable, id);
+                    }
+                }))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread(), true);
+    }
+
+    @Override
+    public Observable<List<String>> getKeywords(String keywords) {
+        return Observable.create((ObservableOnSubscribe<List<String>>) e -> mVacancyCloudStorage
+                .getKeywords(keywords)
+                .subscribe(vacancySearchKeywords -> {
+                    if (!e.isDisposed()) {
+                        List<String> list = Stream.of(vacancySearchKeywords.getItems())
+                                .map(KeywordItem::getText)
+                                .collect(Collectors.toList());
+                        e.onNext(list);
+                    }
+                }, throwable -> {
+                    if (!e.isDisposed()) {
+                        e.onError(ExceptionFactory.getException(throwable));
                     }
                 }))
                 .subscribeOn(Schedulers.io())

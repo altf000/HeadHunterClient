@@ -1,5 +1,7 @@
 package ru.hh.headhunterclient.ui.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -26,10 +28,14 @@ public class VacancyListActivity extends BaseActivity {
 
     private String mVacancyID;
 
+    public static void startActivity(Context context) {
+        Intent intent = new Intent(context, VacancyListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getApplicationContext();
-        getBaseContext();
         super.onCreate(savedInstanceState);
         App.getAppComponent().inject(this);
         setCustomContentView(mCommonUtils.isLarge() ? R.layout.activity_base_tablet : R.layout.activity_base);

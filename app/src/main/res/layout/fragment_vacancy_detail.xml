@@ -37,6 +37,6 @@
 
     </ScrollView>
 
-    <include layout="@layout/progress_bar" />
+    <include layout="@layout/widget_progress_bar" />
 
 </RelativeLayout>

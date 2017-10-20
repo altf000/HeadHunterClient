@@ -17,4 +17,6 @@ public interface VacancyListView extends MvpView {
 
     void setQuery(String query);
 
+    void getKeywordsDone(List<String> keywords);
+
 }

@@ -1,9 +1,12 @@
 package ru.hh.headhunterclient.data.repository.vacancy;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import ru.hh.headhunterclient.data.api.MainService;
+import ru.hh.headhunterclient.domain.entity.vacancies.keywords.KeywordsList;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
@@ -21,8 +24,8 @@ public class VacancyCloudStorage implements VacancyStore {
         this.mMainService = mMainService;
     }
 
-    public Observable<VacancyList> getVacancies(String text, int page) {
-        return mMainService.getVacancies(text, page);
+    public Observable<VacancyList> getVacancies(Map<String, String> params) {
+        return mMainService.getVacancies(params);
     }
 
     @Override
@@ -38,5 +41,10 @@ public class VacancyCloudStorage implements VacancyStore {
     @Override
     public void saveVacancyDetail(VacancyDetail vacancyDetail) {
         throw new UnsupportedOperationException("You can not save or remove data on cloud");
+    }
+
+    @Override
+    public Observable<KeywordsList> getKeywords(String keywords) {
+        return mMainService.getKeywords(keywords);
     }
 }

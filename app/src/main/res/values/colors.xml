@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#1798af</color>
-    <color name="colorPrimaryDark">#0b6171</color>
-    <color name="colorAccent">#0b6171</color>
+    <color name="colorPrimary">@color/mainBlackColor</color>
+    <color name="colorPrimaryDark">@color/mainBlackColor</color>
+    <color name="colorAccent">@color/mainRedColor</color>
     <color name="activityBackground">#f2f2f2</color>
+
+    <color name="mainBlackColor">#000000</color>
+    <color name="mainRedColor">#d0021b</color>
 
     <color name="darkGrayColor">#313131</color>
     <color name="mediumGrayColor">#686868</color>

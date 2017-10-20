@@ -26,4 +26,11 @@ public abstract class VacancyListPresenter extends Presenter<VacancyListView> {
      * Получение списка вакансий (используется для подгрузки вакансий порциями при скроллинге)
      */
     public abstract void loadMore();
+
+    /**
+     * Получение подсказок для ключевых слов
+     *
+     * @param text текст
+     */
+    public abstract void getKeywords(String text);
 }

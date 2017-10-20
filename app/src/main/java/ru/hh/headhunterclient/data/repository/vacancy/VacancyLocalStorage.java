@@ -1,11 +1,14 @@
 package ru.hh.headhunterclient.data.repository.vacancy;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import ru.hh.headhunterclient.data.exception.NetworkConnectionException;
+import ru.hh.headhunterclient.domain.entity.vacancies.keywords.KeywordsList;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
@@ -22,7 +25,7 @@ public class VacancyLocalStorage implements VacancyStore {
     }
 
     @Override
-    public Observable<VacancyList> getVacancies(String query, int page) {
+    public Observable<VacancyList> getVacancies(Map<String, String> params) {
         Realm realm = Realm.getDefaultInstance();
         if (ifVacancyListExists(realm)) {
             VacancyList list = realm.copyFromRealm(realm.where(VacancyList.class).findFirst());
@@ -67,6 +70,11 @@ public class VacancyLocalStorage implements VacancyStore {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransaction(realm1 -> realm1.insertOrUpdate(vacancyDetail));
         realm.close();
+    }
+
+    @Override
+    public Observable<KeywordsList> getKeywords(String keywords) {
+        throw new UnsupportedOperationException("You can not get data on local");
     }
 
     private boolean ifVacancyListExists(Realm realm) {

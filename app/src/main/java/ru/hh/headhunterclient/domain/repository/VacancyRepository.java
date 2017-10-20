@@ -1,7 +1,9 @@
 package ru.hh.headhunterclient.domain.repository;
 
+import java.util.List;
+
 import io.reactivex.Observable;
-import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
+import ru.hh.headhunterclient.data.pref.VacancyFilter;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 
@@ -14,10 +16,10 @@ public interface VacancyRepository {
     /**
      * Получение списка вакансий
      *
-     * @param vacancySearch параметры поиска
+     * @param vacancyFilter параметры поиска
      * @return список вакансий
      */
-    Observable<VacancyList> getVacancies(VacancySearch vacancySearch);
+    Observable<VacancyList> getVacancies(VacancyFilter vacancyFilter);
 
     /**
      * Получение детализации вакансии
@@ -26,4 +28,12 @@ public interface VacancyRepository {
      * @return полное описание вакансии
      */
     Observable<VacancyDetail> getVacancyDetail(String id);
+
+    /**
+     * Подсказки для поиска вакансий по ключевым словам
+     *
+     * @param keywords ключевое слово
+     * @return подсказки
+     */
+    Observable<List<String>> getKeywords(String keywords);
 }

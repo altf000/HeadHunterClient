@@ -31,7 +31,7 @@ public class VacancyListAdapter extends RecyclerView.Adapter<VacancyListViewHold
 
     @Override
     public VacancyListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_main_list, parent, false);
+        View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_vacancy_list, parent, false);
         return new VacancyListViewHolder(itemView);
     }
 

@@ -1,18 +1,16 @@
 package ru.hh.headhunterclient.presentation.vacancy.list;
 
-import com.f2prateek.rx.preferences2.Preference;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import ru.hh.headhunterclient.R;
-import ru.hh.headhunterclient.data.Keywords;
-import ru.hh.headhunterclient.domain.entity.search.VacancySearch;
+import ru.hh.headhunterclient.data.pref.VacancyFilter;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 import ru.hh.headhunterclient.domain.interactor.base.InteractorObserver;
+import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyKeywordsInteractor;
 import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyListInteractor;
 import ru.hh.headhunterclient.domain.interactor.vacancies.VacancyListInteractor.Params;
 import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
@@ -21,59 +19,62 @@ import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
  * Created by neox on 12/9/17.
  * Презентер списка вакансий
  */
-
 public class VacancyListPresenterImpl extends VacancyListPresenter {
 
+    private VacancyKeywordsInteractor mVacancyKeywordsInteractor;
     private VacancyListInteractor mVacancyListInterceptor;
-    private Preference<String> mQueryPref;
-    private VacancySearch mVacancySearch;
+    private VacancyFilter mVacancyFilter;
     private List<Vacancy> mVacancyList;
     private int mAllItemsCount;
 
     @Inject
-    VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor, @Keywords Preference<String> queryPref) {
+    VacancyListPresenterImpl(VacancyListInteractor vacancyListInteractor,
+                             VacancyKeywordsInteractor vacancyKeywordsInteractor, VacancyFilter vacancyFilter) {
         this.mVacancyListInterceptor = vacancyListInteractor;
-        this.mQueryPref = queryPref;
-        this.mVacancySearch = new VacancySearch();
+        this.mVacancyKeywordsInteractor = vacancyKeywordsInteractor;
+        this.mVacancyFilter = vacancyFilter;
         this.mVacancyList = new ArrayList<>();
     }
 
     @Override
     public void onViewAttached() {
-        mVacancySearch.setQuery(mQueryPref.get());
-        getView().setQuery(mQueryPref.get());
+        getView().setQuery(mVacancyFilter.getKeywords());
     }
 
     @Override
     public void getVacancies(boolean cached) {
-        mVacancySearch.setCached(cached);
-        mVacancySearch.setPage(0);
-        mVacancySearch.setLoadMore(false);
+        mVacancyFilter.setCached(cached);
+        mVacancyFilter.setPage(0);
+        mVacancyFilter.setLoadMore(false);
         getVacanciesList();
     }
 
     @Override
     public void searchVacancies(String query) {
-        mVacancySearch.setQuery(query);
-        mVacancySearch.setPage(0);
-        mVacancySearch.setCached(false);
-        mVacancySearch.setLoadMore(false);
-        mQueryPref.set(query);
+        mVacancyFilter.setPage(0);
+        mVacancyFilter.setCached(false);
+        mVacancyFilter.setLoadMore(false);
+        mVacancyFilter.setKeywords(query);
         getVacanciesList();
     }
 
     @Override
     public void loadMore() {
         if (mAllItemsCount > mVacancyList.size()) {
-            mVacancySearch.setLoadMore(true);
-            mVacancySearch.setCached(false);
+            mVacancyFilter.setLoadMore(true);
+            mVacancyFilter.setCached(false);
             getVacanciesList();
         }
     }
 
+    @Override
+    public void getKeywords(String text) {
+        mVacancyKeywordsInteractor.execute(new VacancyKeywordsObserver(), VacancyKeywordsInteractor.Params.create(text));
+    }
+
     private void getVacanciesList() {
         getView().showLoading();
-        mVacancyListInterceptor.execute(new VacancyListObserver(), Params.create(mVacancySearch));
+        mVacancyListInterceptor.execute(new VacancyListObserver(), Params.create(mVacancyFilter));
     }
 
     @Override
@@ -92,16 +93,29 @@ public class VacancyListPresenterImpl extends VacancyListPresenter {
 
         @Override
         public void onNext(VacancyList vacancyList) {
-            if (mVacancySearch.isLoadMore()) {
+            if (mVacancyFilter.isLoadMore()) {
                 mVacancyList.addAll(vacancyList.getItems());
             } else {
                 mVacancyList = vacancyList.getItems();
             }
             mAllItemsCount = vacancyList.getFound();
-            mVacancySearch.setPage(mVacancyList.size() / vacancyList.getPerPage());
+            mVacancyFilter.setPage(mVacancyList.size() / vacancyList.getPerPage());
             getView().setSubtitle(String.format(getView().getContext().getString(R.string.vacancy_count), vacancyList.getFound()));
             getView().getVacanciesDone(mVacancyList);
             getView().hideLoading();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            showErrorMessage(e);
+        }
+    }
+
+    private final class VacancyKeywordsObserver extends InteractorObserver<List<String>> {
+
+        @Override
+        public void onNext(List<String> keywords) {
+            getView().getKeywordsDone(keywords);
         }
 
         @Override

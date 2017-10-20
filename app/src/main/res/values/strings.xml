@@ -12,11 +12,16 @@
     <string name="salary_to">от</string>
     <string name="menu_search_hint">Поиск</string>
     <string name="no_data_error">Ничего не найдено, пожалуйста, уточните запрос</string>
-    <string name="keywords">Должность, ключевые слова</string>
     <string name="from_to_format" formatted="false">От %d до %d %s</string>
     <string name="from_format" formatted="false">От %d %s</string>
     <string name="to_format" formatted="false">До %d %s</string>
     <string name="vacancy_desc" formatted="false">%s, %s</string>
     <string name="detailing">Детализация</string>
     <string name="vacancy_count" formatted="false">Количество вакансий: %d</string>
+    <string name="accept">Применить</string>
+    <string name="more_params">Больше параметров</string>
+    <string name="less_params">Меньше параметров</string>
+    <string name="keywords_hint">Должность, ключевые слова</string>
+    <string name="salary_hint">Желаемая зарплата</string>
+    <string name="region_hint">Регион (город или страна)</string>
 </resources>
