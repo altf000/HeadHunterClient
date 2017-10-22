@@ -18,7 +18,6 @@ import ru.hh.headhunterclient.utils.CommonUtils;
  * Created by neox on 12/9/17.
  * Главный экран приложения (список вакансий)
  */
-
 public class VacancyListActivity extends BaseActivity {
 
     public static final String VACANCY_ID = "vacancy_id";

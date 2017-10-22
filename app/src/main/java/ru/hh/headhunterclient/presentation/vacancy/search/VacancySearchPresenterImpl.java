@@ -14,7 +14,6 @@ import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
 /**
  * Created by neox on 23.09.17.
  */
-
 public class VacancySearchPresenterImpl extends VacancySearchPresenter {
 
     private AreaSearchInteractor mSearchInteractor;
@@ -62,7 +61,7 @@ public class VacancySearchPresenterImpl extends VacancySearchPresenter {
         @Override
         public void onError(Throwable e) {
             if (e instanceof NoDataException) {
-                showErrorMessage(getView().getContext().getString(R.string.regionn_not_found));
+                showErrorMessage(getView().getContext().getString(R.string.region_not_found));
             } else {
                 showErrorMessage(e);
             }

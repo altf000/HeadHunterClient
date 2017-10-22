@@ -24,5 +24,18 @@
     <string name="keywords_hint">Должность, ключевые слова</string>
     <string name="salary_hint">Желаемая зарплата</string>
     <string name="region_hint">Регион (город или страна)</string>
-    <string name="regionn_not_found">Регион не найден</string>
+    <string name="region_not_found">Регион не найден</string>
+
+    <string-array name="salary_keys">
+        <item>RUR</item>
+        <item>KZT</item>
+        <item>USD</item>
+    </string-array>
+
+    <string-array name="salary_values">
+        <item>Рубли</item>
+        <item>Тенге</item>
+        <item>Доллары</item>
+    </string-array>
+
 </resources>

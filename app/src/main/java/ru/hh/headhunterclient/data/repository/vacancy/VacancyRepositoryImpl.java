@@ -74,7 +74,7 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     private void getVacanciesFromLocalStorage(ObservableEmitter<VacancyList> e, Throwable t) {
-        // вакансии из бд в случае ошибки получения данны из сети
+        // вакансии из бд в случае ошибки получения данных из сети
         mVacancyLocalStorage
                 .getVacancies(mVacancyFilter.toGetParams())
                 .subscribe(vacancyList -> {

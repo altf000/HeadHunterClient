@@ -66,12 +66,11 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
     CommonUtils mCommonUtils;
 
     private List<String> mAreaData;
+    private List<String> mSalaryValues;
+    private List<String> mSalaryKeys;
+
     private String mSelectedAreaName;
     private OnSearchListener mSearchListener;
-
-    // todo временно
-    private List<String> mSpinnerData = Arrays.asList("Рубли", "Тенге", "Доллары");
-    private List<String> mSpinnerKeys = Arrays.asList("RUR", "KZT", "USD");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +78,8 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
         App.getAppComponent().inject(this);
         mVacancySearchPresenter.attachView(this);
         mAreaData = new ArrayList<>();
+        mSalaryKeys = Arrays.asList(getResources().getStringArray(R.array.salary_keys));
+        mSalaryValues = Arrays.asList(getResources().getStringArray(R.array.salary_values));
         mSelectedAreaName = mVacancyFilter.getAreaName();
     }
 
@@ -118,13 +119,14 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> mVacancyFilter.setSalary(s));
 
-        mSalarySpinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner, mSpinnerData));
+        mSalarySpinner.setAdapter(new ArrayAdapter<>(getContext(), R.layout.item_spinner, mSalaryValues));
         mSalarySpinner.setSelection(getSavedCurrencyPosition());
         mSalarySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                mVacancyFilter.setCurrency(mSpinnerKeys.get(i));
+                mVacancyFilter.setCurrency(mSalaryKeys.get(i));
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -174,16 +176,16 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
         this.mSearchListener = searchListener;
     }
 
-    public interface OnSearchListener {
-        void search();
-    }
-
     private int getSavedCurrencyPosition() {
-        for (int i = 0; i < mSpinnerKeys.size(); i++) {
-            if (mVacancyFilter.getCurrency().equals(mSpinnerKeys.get(i))) {
+        for (int i = 0; i < mSalaryKeys.size(); i++) {
+            if (mVacancyFilter.getCurrency().equals(mSalaryKeys.get(i))) {
                 return i;
             }
         }
         return 0;
+    }
+
+    public interface OnSearchListener {
+        void search();
     }
 }

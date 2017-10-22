@@ -41,7 +41,6 @@ import ru.hh.headhunterclient.utils.RecyclerViewListener;
  * Created by neox on 12/9/17.
  * Фрагмент списка вакансий
  */
-
 public class VacancyListFragment extends BaseFragment implements VacancyListView {
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
@@ -162,9 +161,7 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
             mSelectedKeyword = keywords.get(i);
             searchList(keywords.get(i));
         });
-        if (mSelectedKeyword == null) {
-            mQueryEditText.showDropDown();
-        } else if (!mSelectedKeyword.equals(mQueryEditText.getText().toString())) {
+        if (mSelectedKeyword == null || !mSelectedKeyword.equals(mQueryEditText.getText().toString())) {
             mQueryEditText.showDropDown();
         }
     }

@@ -86,31 +86,31 @@ public class VacancyFilter {
         this.loadMore = loadMore;
     }
 
-    public void setCurrency(String currency) {
-        this.currency.set(currency);
-    }
-
     public String getCurrency() {
         return currency.get();
     }
 
-    public void setSalary(String salary) {
-        this.salary.set(salary);
+    public void setCurrency(String currency) {
+        this.currency.set(currency);
     }
 
     public String getSalary() {
         return this.salary.get();
     }
 
+    public void setSalary(String salary) {
+        this.salary.set(salary);
+    }
+
     public Map<String, String> toGetParams() {
         Map<String, String> params = new HashMap<>();
-        if (keywords.isSet()) {
+        if (keywords.isSet() && !keywords.get().isEmpty()) {
             params.put("text", keywords.get());
         }
-        if (areaID.isSet()) {
+        if (areaID.isSet() && !areaID.get().isEmpty()) {
             params.put("area", areaID.get());
         }
-        if (salary.isSet()) {
+        if (salary.isSet() && !salary.get().isEmpty()) {
             params.put("currency", currency.get());
             params.put("salary", salary.get());
         }
