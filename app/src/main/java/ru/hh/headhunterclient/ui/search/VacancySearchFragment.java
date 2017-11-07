@@ -30,19 +30,19 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.app.App;
-import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.data.settings.VacancyFilter;
 import ru.hh.headhunterclient.domain.entity.area.Area;
 import ru.hh.headhunterclient.presentation.vacancy.search.VacancySearchPresenter;
-import ru.hh.headhunterclient.presentation.vacancy.search.VacancySerachView;
+import ru.hh.headhunterclient.presentation.vacancy.search.VacancySearchView;
 import ru.hh.headhunterclient.ui.base.BaseDialogFragment;
 import ru.hh.headhunterclient.utils.CommonUtils;
 import ru.hh.headhunterclient.utils.Constants;
 
 /**
  * Created by neox on 21.09.17.
- * BottomSheet fragment для поиска вакансий
+ * Диалог поиска вакансий
  */
-public class VacancySearchFragment extends BaseDialogFragment implements VacancySerachView {
+public class VacancySearchFragment extends BaseDialogFragment implements VacancySearchView {
 
     @BindView(R.id.vacancyArea)
     AutoCompleteTextView mVacancyArea;
@@ -75,7 +75,6 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getAppComponent().inject(this);
         mVacancySearchPresenter.attachView(this);
         mAreaData = new ArrayList<>();
         mSalaryKeys = Arrays.asList(getResources().getStringArray(R.array.salary_keys));
@@ -93,6 +92,11 @@ public class VacancySearchFragment extends BaseDialogFragment implements Vacancy
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initViews();
+    }
+
+    @Override
+    public void setupComponent() {
+        App.getAppComponent().inject(this);
     }
 
     @Override

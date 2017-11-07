@@ -9,18 +9,21 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import ru.hh.headhunterclient.app.App;
+import ru.hh.headhunterclient.di.component.AppComponent;
 
 /**
  * Created by neox on 12/9/17.
+ * Базовый фрагмент
  */
-
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     private Unbinder mUnBinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupComponent(App.getAppComponent());
         FirebaseAnalytics analytics = FirebaseAnalytics.getInstance(getContext());
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, getClass().getName());
@@ -37,7 +40,9 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnBinder.unbind();
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
     }
 
     public void setSubtitle(String text) {
@@ -46,4 +51,6 @@ public class BaseFragment extends Fragment {
             baseActivity.getSupportActionBar().setSubtitle(text);
         }
     }
+
+    public abstract void setupComponent(AppComponent upComponent);
 }

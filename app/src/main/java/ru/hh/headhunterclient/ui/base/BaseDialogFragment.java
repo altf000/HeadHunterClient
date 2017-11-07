@@ -11,15 +11,16 @@ import ru.hh.headhunterclient.R;
 
 /**
  * Created by neox on 23.09.17.
+ * Базовый фрагмент (диалог)
  */
-
-public class BaseDialogFragment extends DialogFragment {
+public abstract class BaseDialogFragment extends DialogFragment {
 
     private Unbinder mUnBinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupComponent();
         setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme);
     }
 
@@ -32,7 +33,11 @@ public class BaseDialogFragment extends DialogFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mUnBinder.unbind();
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
     }
+
+    public abstract void setupComponent();
 
 }

@@ -7,8 +7,8 @@ import butterknife.ButterKnife;
 
 /**
  * Created by neox on 12/9/17.
+ * Базовый ViewHolder
  */
-
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {

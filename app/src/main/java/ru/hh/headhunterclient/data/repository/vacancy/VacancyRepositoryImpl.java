@@ -13,7 +13,7 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.hh.headhunterclient.data.exception.ExceptionFactory;
-import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.data.settings.VacancyFilter;
 import ru.hh.headhunterclient.domain.entity.vacancies.keywords.KeywordItem;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
@@ -40,7 +40,6 @@ public class VacancyRepositoryImpl implements VacancyRepository {
         mVacancyFilter = vacancyFilter;
         return Observable.create((ObservableOnSubscribe<VacancyList>) e -> {
             if (mVacancyFilter.isCached()) {
-                // вакансии из бд
                 mVacancyLocalStorage
                         .getVacancies(mVacancyFilter.toGetParams())
                         .subscribe(vacancyList -> {
@@ -53,7 +52,6 @@ public class VacancyRepositoryImpl implements VacancyRepository {
                             }
                         });
             } else {
-                // вакансии из сети
                 mVacancyCloudStorage
                         .getVacancies(mVacancyFilter.toGetParams())
                         .doOnNext(vacancyList -> mVacancyLocalStorage.saveVacancyList(vacancyList, !mVacancyFilter.isLoadMore()))
@@ -74,7 +72,6 @@ public class VacancyRepositoryImpl implements VacancyRepository {
     }
 
     private void getVacanciesFromLocalStorage(ObservableEmitter<VacancyList> e, Throwable t) {
-        // вакансии из бд в случае ошибки получения данных из сети
         mVacancyLocalStorage
                 .getVacancies(mVacancyFilter.toGetParams())
                 .subscribe(vacancyList -> {

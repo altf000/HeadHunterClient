@@ -28,7 +28,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.app.App;
-import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.data.settings.VacancyFilter;
+import ru.hh.headhunterclient.di.component.AppComponent;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
 import ru.hh.headhunterclient.presentation.vacancy.list.VacancyListPresenter;
 import ru.hh.headhunterclient.presentation.vacancy.list.VacancyListView;
@@ -83,7 +84,6 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getAppComponent().inject(this);
         if (savedInstanceState != null) {
             mRecyclerViewState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
         }
@@ -147,6 +147,11 @@ public class VacancyListFragment extends BaseFragment implements VacancyListView
     @Override
     public void setSubtitle(String subtitle) {
         super.setSubtitle(subtitle);
+    }
+
+    @Override
+    public void setupComponent(AppComponent upComponent) {
+        App.getAppComponent().inject(this);
     }
 
     @Override

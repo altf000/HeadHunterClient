@@ -9,7 +9,7 @@ import ru.hh.headhunterclient.presentation.base.MvpView;
  * Created by neox on 23.09.17.
  */
 
-public interface VacancySerachView extends MvpView {
+public interface VacancySearchView extends MvpView {
 
     void getAreasDone(List<Area> areaList);
 

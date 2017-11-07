@@ -16,7 +16,7 @@ import ru.hh.headhunterclient.utils.CommonUtils;
 
 /**
  * Created by neox on 12/9/17.
- * Главный экран приложения (список вакансий)
+ * Главный экран (список вакансий)
  */
 public class VacancyListActivity extends BaseActivity {
 

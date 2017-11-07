@@ -3,7 +3,7 @@ package ru.hh.headhunterclient.domain.repository;
 import java.util.List;
 
 import io.reactivex.Observable;
-import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.data.settings.VacancyFilter;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
 

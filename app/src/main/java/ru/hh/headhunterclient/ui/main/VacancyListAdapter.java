@@ -16,7 +16,6 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.Vacancy;
  * Created by neox on 12/9/17.
  * Адаптер списка вакансий
  */
-
 public class VacancyListAdapter extends RecyclerView.Adapter<VacancyListViewHolder> {
 
     private VacancyListActivity.OnItemSelectedListener mItemSelectedListener;

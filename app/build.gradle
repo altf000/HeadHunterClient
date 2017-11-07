@@ -17,7 +17,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "ru.hh.headhunterclient"
         minSdkVersion 15
@@ -65,7 +65,7 @@ dependencies {
     // common
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
-    compile 'com.annimon:stream:1.0.6'
+    compile 'com.annimon:stream:1.1.8'
 
     // ui
     compile 'com.github.johnkil.android-robototextview:robototextview:4.0.0'

@@ -10,7 +10,6 @@ import ru.hh.headhunterclient.presentation.exception.ErrorMessageFactory;
  * Created by neox on 21.09.17.
  * Презентер сплеш экрана
  */
-
 public class SplashPresenterImpl extends SplashPresenter {
 
     private SplashInteractor mSplashInteractor;

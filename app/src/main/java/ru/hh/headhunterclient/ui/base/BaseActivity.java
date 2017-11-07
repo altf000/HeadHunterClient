@@ -16,8 +16,8 @@ import ru.hh.headhunterclient.R;
 
 /**
  * Created by neox on 12/9/17.
+ * Базовое активити
  */
-
 public class BaseActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
     private Unbinder mUnBinder;
 
     protected void setCustomContentView(@LayoutRes int resId) {
-        ViewGroup container = (ViewGroup) findViewById(android.R.id.content);
+        ViewGroup container = findViewById(android.R.id.content);
         getLayoutInflater().inflate(resId, container);
         mUnBinder = ButterKnife.bind(this, container);
     }
@@ -103,6 +103,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mUnBinder.unbind();
+        if (mUnBinder != null) {
+            mUnBinder.unbind();
+        }
     }
 }

@@ -17,7 +17,6 @@ import ru.hh.headhunterclient.utils.VacancyUtils;
  * Created by neox on 12/9/17.
  * Плашка списка вакансий
  */
-
 public class VacancyListViewHolder extends BaseViewHolder {
 
     @BindView(R.id.cardView)

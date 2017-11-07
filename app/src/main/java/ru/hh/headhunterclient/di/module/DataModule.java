@@ -9,9 +9,10 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.hh.headhunterclient.data.pref.VacancyFilter;
+import ru.hh.headhunterclient.data.settings.VacancyFilter;
 import ru.hh.headhunterclient.utils.CommonUtils;
 import ru.hh.headhunterclient.utils.Constants;
+import ru.hh.headhunterclient.utils.VacancyUtils;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -46,7 +47,13 @@ public class DataModule {
 
     @Provides
     @Singleton
-    CommonUtils provideUtils(Application application) {
+    CommonUtils provideCommonUtils(Application application) {
         return new CommonUtils(application);
+    }
+
+    @Provides
+    @Singleton
+    VacancyUtils provideVacancyUtils() {
+        return new VacancyUtils();
     }
 }

@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.app.App;
+import ru.hh.headhunterclient.di.component.AppComponent;
 import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyDetail;
 import ru.hh.headhunterclient.presentation.vacancy.detail.DetailVacancyPresenter;
 import ru.hh.headhunterclient.presentation.vacancy.detail.DetailVacancyView;
@@ -25,7 +26,6 @@ import ru.hh.headhunterclient.ui.base.BaseFragment;
  * Created by neox on 12.09.17.
  * Фрагмент детализации вакансии
  */
-
 public class VacancyDetailFragment extends BaseFragment implements DetailVacancyView {
 
     @BindView(R.id.container)
@@ -58,8 +58,12 @@ public class VacancyDetailFragment extends BaseFragment implements DetailVacancy
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getAppComponent().inject(this);
         mVacancyID = getArguments().getString(VacancyDetailActivity.EXTRA_ID);
+    }
+
+    @Override
+    public void setupComponent(AppComponent upComponent) {
+        App.getAppComponent().inject(this);
     }
 
     @Nullable

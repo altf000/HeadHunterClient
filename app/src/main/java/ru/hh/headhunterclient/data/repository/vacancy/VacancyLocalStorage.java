@@ -16,7 +16,6 @@ import ru.hh.headhunterclient.domain.entity.vacancies.main.VacancyList;
  * Created by neox on 12.09.17.
  * Локальное хранилище вакансий
  */
-
 public class VacancyLocalStorage implements VacancyStore {
 
     @Inject

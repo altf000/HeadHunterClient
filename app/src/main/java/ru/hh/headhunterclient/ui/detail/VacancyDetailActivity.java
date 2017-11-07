@@ -17,7 +17,6 @@ import ru.hh.headhunterclient.utils.CommonUtils;
  * Created by neox on 12.09.17.
  * Экран детализации вакансии
  */
-
 public class VacancyDetailActivity extends BaseActivity {
 
     public static final String EXTRA_ID = "extra_id";

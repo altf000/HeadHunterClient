@@ -1,4 +1,4 @@
-package ru.hh.headhunterclient.data.pref;
+package ru.hh.headhunterclient.data.settings;
 
 import com.f2prateek.rx.preferences2.Preference;
 import com.f2prateek.rx.preferences2.RxSharedPreferences;
@@ -12,12 +12,12 @@ import java.util.Map;
  */
 public class VacancyFilter {
 
-    public static final String KEY_KEYWORDS = "keywords";
-    public static final String KEY_AREA_ID = "area_id";
-    public static final String KEY_AREA_NAME = "area_name";
-    public static final String KEY_PAGE = "page";
-    public static final String KEY_CURRENCY = "currency";
-    public static final String KEY_SALARY = "salary";
+    private static final String KEY_KEYWORDS = "keywords";
+    private static final String KEY_AREA_ID = "area_id";
+    private static final String KEY_AREA_NAME = "area_name";
+    private static final String KEY_PAGE = "page";
+    private static final String KEY_CURRENCY = "currency";
+    private static final String KEY_SALARY = "salary";
 
     private Preference<String> keywords;
     private Preference<String> areaID;

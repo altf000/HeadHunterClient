@@ -2,23 +2,14 @@ package ru.hh.headhunterclient.utils;
 
 import android.content.Context;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import ru.hh.headhunterclient.R;
 import ru.hh.headhunterclient.domain.entity.vacancies.common.VacancySalary;
 
 /**
  * Created by neox on 11.09.17.
+ * Утилиты вакансий
  */
-
-@Singleton
 public class VacancyUtils {
-
-    @Inject
-    VacancyUtils() {
-
-    }
 
     public String getSalary(VacancySalary salary, Context context) {
         if (salary == null) {
